@@ -320,70 +320,27 @@ const sBadge = status => {
 
 // ── SEED DATA ──────────────────────────────────────────────────────────────────
 const SEED_STAFF = [
-  {id:'s001',name:'Joseph Mokwugwo',   role:'admin',   pin:'0000',domain:'Command & Control',   phone:'+447700900001',color:'#B8940A',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
-  {id:'s002',name:'Sarah Adebayo',     role:'admin',   pin:'1111',domain:'Command & Control',   phone:'+447700900002',color:'#1460B8',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
-  {id:'s003',name:'V-012 Thomas A.',   role:'protocol',pin:'0012',domain:'Airport Team',        phone:'+447700900012',color:'#128A48',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
-  {id:'s004',name:'V-027 Grace M.',    role:'protocol',pin:'0027',domain:'Airport Team',        phone:'+447700900027',color:'#7030A0',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
-  {id:'s005',name:'V-034 David K.',    role:'protocol',pin:'0034',domain:'Venue Team',          phone:'+447700900034',color:'#B85000',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
-  {id:'s006',name:'V-045 Rachel O.',   role:'protocol',pin:'0045',domain:'Hotel Team',          phone:'+447700900045',color:'#0A6880',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
-  {id:'s007',name:'V-056 Ahmed S.',    role:'protocol',pin:'0056',domain:'Hotel Team',          phone:'+447700900056',color:'#B81818',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
+  {id:'s001',name:'Joseph Mokwugwo',role:'admin',pin:'0000',domain:'Command & Control',phone:'',color:'#B8940A',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
 ];
 
-const SEED_GUESTS = [
-  {id:'g001',name:'Dr Emmanuel Adeyemi',   title:'Senior Pastor',nationality:'Nigerian',   flag:'🇳🇬',origin:'Nigeria',
-   arrivalAirport:'London Heathrow (LHR)', departureAirport:'London Heathrow (LHR)',
-   flightNoArr:'BA0076',flightNoDep:'BA0077',eta:'2026-09-24T08:30',etd:'2026-09-27T10:00',
-   hotel:'Hilton Deansgate, 303 Deansgate, Manchester M3 4LQ',hotelRoom:'702',
-   detailLead:'V-012 Thomas A.',accessible:false,notes:'Vegetarian meals required',
-   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'ADY001'},
-  {id:'g002',name:'Rev Gloria Mensah',     title:'Minister',       nationality:'Ghanaian',  flag:'🇬🇭',origin:'Ghana',
-   arrivalAirport:'London Heathrow (LHR)', departureAirport:'London Heathrow (LHR)',
-   flightNoArr:'KL1009',flightNoDep:'KL1010',eta:'2026-09-24T11:15',etd:'2026-09-27T14:00',
-   hotel:'Lowry Hotel, 50 Dearmans Place, Manchester M3 5LH',hotelRoom:'305',
-   detailLead:'V-027 Grace M.',accessible:false,notes:'',
-   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'MEN002'},
-  {id:'g003',name:'Bishop Samuel Osei',    title:'Bishop',         nationality:'South African',flag:'🇿🇦',origin:'South Africa',
-   arrivalAirport:'London Heathrow (LHR)', departureAirport:'London Heathrow (LHR)',
-   flightNoArr:'BA0057',flightNoDep:'BA0058',eta:'2026-09-24T14:00',etd:'2026-09-27T16:00',
-   hotel:'Hilton Deansgate, 303 Deansgate, Manchester M3 4LQ',hotelRoom:'801',
-   detailLead:'V-034 David K.',accessible:true,notes:'Wheelchair accessible vehicle required at all times',
-   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'OSE003'},
-  {id:'g004',name:'Pastor Grace Williams', title:'Lead Pastor',    nationality:'Canadian',  flag:'🇨🇦',origin:'Canada',
-   arrivalAirport:'Manchester Airport (MAN)',departureAirport:'Manchester Airport (MAN)',
-   flightNoArr:'AC0856',flightNoDep:'AC0857',eta:'2026-09-24T16:45',etd:'2026-09-27T09:30',
-   hotel:'Lowry Hotel, 50 Dearmans Place, Manchester M3 5LH',hotelRoom:'210',
-   detailLead:'V-045 Rachel O.',accessible:false,notes:'',
-   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'WIL004'},
-  {id:'g005',name:'Apostle James Okonkwo', title:'Apostle',        nationality:'Nigerian',  flag:'🇳🇬',origin:'Nigeria',
-   arrivalAirport:'Manchester Airport (MAN)',departureAirport:'Manchester Airport (MAN)',
-   flightNoArr:'AP0234',flightNoDep:'AP0235',eta:'2026-09-24T19:20',etd:'2026-09-28T08:00',
-   hotel:'Marriott City Centre, 1 Portland St, Manchester M1 3BE',hotelRoom:'412',
-   detailLead:'V-056 Ahmed S.',accessible:false,notes:'Gluten-free diet — inform hotel catering',
-   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'OKO005'},
-];
+const SEED_GUESTS = [];
 
-const SEED_VEHICLES = [
-  {id:'v001',type:'Executive Minibus',reg:'MK26 ABC',driver:'Thomas Hamill', phone:'+447700800001',capacity:8, available:true,notes:''},
-  {id:'v002',type:'Executive Minibus',reg:'MK26 DEF',driver:'Rachel Obi',    phone:'+447700800002',capacity:8, available:true,notes:''},
-  {id:'v003',type:'Coach (16-seat)',  reg:'MK26 GHI',driver:'David Khan',    phone:'+447700800003',capacity:16,available:true,notes:''},
-  {id:'v004',type:'WAV Minibus',      reg:'MK26 JKL',driver:'Lisa Morton',   phone:'+447700800004',capacity:6, available:true,notes:'Full wheelchair access, ramp equipped'},
-  {id:'v005',type:'Executive Minibus',reg:'MK26 MNO',driver:'Ahmed Saleh',   phone:'+447700800005',capacity:8, available:true,notes:''},
-];
+const SEED_VEHICLES = [];
 
 // ── STATE ──────────────────────────────────────────────────────────────────────
 const S = {
-  staff:    load('p26_staff',    SEED_STAFF),
-  guests:   load('p26_guests',   SEED_GUESTS),
-  vehicles: load('p26_vehicles', SEED_VEHICLES),
-  tasks:    load('p26_tasks',    []),
-  messages: load('p26_msgs',     []),
-  audit:    load('p26_audit',    []),
-  notifs:   load('p26_notifs',   []),
+  staff:    load('p26v2_staff',    SEED_STAFF),
+  guests:   load('p26v2_guests',   SEED_GUESTS),
+  vehicles: load('p26v2_vehicles', SEED_VEHICLES),
+  tasks:    load('p26v2_tasks',    []),
+  messages: load('p26v2_msgs',     []),
+  audit:    load('p26v2_audit',    []),
+  notifs:   load('p26v2_notifs',   []),
   user: null, view: 'dashboard', modal: null, mData: null,
   chatOpen: false, notifOpen: false, trigBanner: null,
   chatChannel: 'general',
 };
-const commit = k => store('p26_'+k, S[k]);
+const commit = k => store('p26v2_'+k, S[k]);
 
 // ── AUDIT + NOTIF ──────────────────────────────────────────────────────────────
 const addAudit = e => { S.audit.unshift({id:gid(), ts:now(), ...e}); commit('audit'); };
@@ -471,20 +428,18 @@ const rLogin = () => `
     </div>
     <div style="background:var(--s1);border-radius:var(--r2);padding:24px;box-shadow:var(--shadow3)">
       <div class="fg">
-        <div><label class="required">Name / Volunteer ID</label><input id="li-name" placeholder="e.g. Joseph Mokwugwo or V-012 Thomas A." autocomplete="off" inputmode="text"/></div>
+        <div><label class="required">Name / Volunteer ID</label><input id="li-name" placeholder="Your name or volunteer ID" autocomplete="off" inputmode="text"/></div>
         <div><label class="required">PIN / Password</label><input id="li-pin" type="password" placeholder="Enter PIN" maxlength="8" inputmode="numeric"/></div>
         <div id="li-err" style="display:none" class="info-box red"><span class="info-box-icon">⚠</span><span id="li-err-text"></span></div>
         <button class="btn btn-primary" id="li-btn" style="width:100%;padding:13px;font-size:15px">Sign In →</button>
       </div>
       <div style="margin:20px 0;display:flex;align-items:center;gap:10px"><div style="flex:1;height:1.5px;background:var(--bd)"></div><span style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em">or track a journey</span><div style="flex:1;height:1.5px;background:var(--bd)"></div></div>
       <div class="fg">
-        <div><label>Guest Tracking Code</label><input id="li-code" placeholder="Enter your code (e.g. ADY001)" style="text-align:center;font-size:16px;font-weight:900;letter-spacing:.15em" inputmode="text"/></div>
+        <div><label>Guest Tracking Code</label><input id="li-code" placeholder="Enter your tracking code" style="text-align:center;font-size:16px;font-weight:900;letter-spacing:.15em" inputmode="text"/></div>
         <button class="btn btn-info" id="li-gst" style="width:100%;padding:11px">🔍 Track My Journey</button>
       </div>
-      <div style="margin-top:18px;padding-top:14px;border-top:1.5px solid var(--bd);font-size:11px;color:var(--t3);text-align:center;font-weight:700;line-height:2.2">
-        Admin: Joseph Mokwugwo / 0000 &nbsp;·&nbsp; Sarah Adebayo / 1111<br>
-        Staff: V-012 Thomas A. / 0012 &nbsp;·&nbsp; V-027 Grace M. / 0027<br>
-        <span style="color:var(--gold-d)">Guest codes: ADY001 · MEN002 · OSE003 · WIL004 · OKO005</span>
+      <div style="margin-top:18px;padding-top:14px;border-top:1.5px solid var(--bd);font-size:11px;color:var(--t3);text-align:center;font-weight:700;line-height:1.8">
+        Access is issued by the Protocol Department.<br>Contact your Team Lead or Detail Lead if you need credentials.
       </div>
     </div>
     <p style="text-align:center;color:rgba(255,255,255,.35);font-size:11px;margin-top:16px;font-weight:600">NSPPD Protocol Department · Old Trafford · Sep 2026</p>
