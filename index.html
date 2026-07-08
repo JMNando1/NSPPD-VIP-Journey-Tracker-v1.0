@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B2A4A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NSPPD Protocol">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;NSPPD Protocol VIP Tracker&quot;,&quot;short_name&quot;:&quot;Protocol&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#1B2A4A&quot;,&quot;theme_color&quot;:&quot;#1B2A4A&quot;}">
+<title>NSPPD Protocol VIP Tracker 2026</title>
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#1B2A4A;--navy2:#243B6A;--gold:#B8940A;--gold-l:#D4AC20;--gold-d:#8A6800;--gold-bg:#FBF7E8;
+  --bg:#EEF1F8;--s1:#FFFFFF;--s2:#F4F6FC;--s3:#E6EAF5;--s4:#DDE2F0;
+  --bd:#BFC8DC;--bd2:#9AABC8;--bd3:#7A8BB5;
+  --t1:#0A1428;--t2:#2E3F60;--t3:#5A6B90;--t4:#8A9BB8;
+  --green:#0A5C30;--gl:#128A48;--gb:#D0EFE0;--gs:#E8F8F0;
+  --red:#8A0000;--rl:#B81818;--rb:#FDE8E8;--rsoft:#FFF0F0;
+  --amb:#7A3800;--al:#B85000;--ab:#FEF0DC;--as:#FFF8F0;
+  --blue:#0A3878;--bl:#1258B0;--bb:#DCE8F8;--bs:#EEF4FD;
+  --pur:#480058;--pl:#7030A0;--pb:#F0E8F8;--ps:#F8F0FF;
+  --teal:#064050;--tl:#0A6880;--tb:#D0ECF4;--ts:#E8F6FA;
+  --info:#0A3878;--warn:#7A3800;--err:#8A0000;--suc:#0A5C30;
+  --r:12px;--r2:16px;--r3:20px;--rs:7px;--rxs:4px;
+  --shadow:0 1px 4px rgba(10,20,40,.08),0 4px 16px rgba(10,20,40,.06);
+  --shadow2:0 2px 8px rgba(10,20,40,.1),0 8px 32px rgba(10,20,40,.08);
+  --shadow3:0 4px 16px rgba(10,20,40,.12),0 16px 48px rgba(10,20,40,.1);
+  --trans:.18s cubic-bezier(.4,0,.2,1);
+}
+html{height:100%;-webkit-text-size-adjust:100%}
+body{min-height:100%;height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--t1);font-size:14px;line-height:1.55;overflow:hidden;-webkit-font-smoothing:antialiased}
+#app{display:flex;flex-direction:column;height:100dvh;height:100vh}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}
+/* ── INPUTS ── */
+input,select,textarea{
+  background:var(--s1);border:1.5px solid var(--bd);color:var(--t1);
+  padding:9px 12px;border-radius:var(--rs);font-size:14px;width:100%;
+  outline:none;font-family:inherit;transition:border var(--trans),box-shadow var(--trans);
+  font-weight:600;-webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,148,10,.15)}
+input::placeholder,textarea::placeholder{color:var(--t4);font-weight:400}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6B90' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+select option{background:var(--s1);color:var(--t1)}
+textarea{resize:vertical;min-height:80px}
+input[type="checkbox"]{width:auto;height:18px;width:18px;accent-color:var(--gold);cursor:pointer}
+input[type="color"]{height:42px;padding:4px 8px;cursor:pointer}
+/* ── BUTTONS ── */
+button{cursor:pointer;font-family:inherit;font-weight:700;border:none;outline:none;transition:all var(--trans);border-radius:var(--rs);letter-spacing:.01em;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.97)}
+.btn{padding:9px 18px;font-size:14px}
+.btn-sm{padding:6px 12px;font-size:13px}
+.btn-xs{padding:4px 9px;font-size:12px}
+.btn-icon{padding:8px;border-radius:var(--rs);aspect-ratio:1}
+.btn-primary{background:var(--gold);color:#fff;box-shadow:0 1px 4px rgba(184,148,10,.3)}.btn-primary:hover{background:var(--gold-l);box-shadow:0 2px 8px rgba(184,148,10,.4)}
+.btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:var(--navy2)}
+.btn-ghost{background:transparent;color:var(--t2);border:1.5px solid var(--bd2)}.btn-ghost:hover{background:var(--s2);color:var(--t1)}
+.btn-success{background:var(--gb);color:var(--green);border:1.5px solid var(--gl)}.btn-success:hover{background:var(--green);color:#fff}
+.btn-danger{background:var(--rb);color:var(--rl);border:1.5px solid var(--red)}.btn-danger:hover{background:var(--red);color:#fff}
+.btn-info{background:var(--bb);color:var(--blue);border:1.5px solid var(--bl)}.btn-info:hover{background:var(--blue);color:#fff}
+.btn-amber{background:var(--ab);color:var(--amb);border:1.5px solid var(--al)}.btn-amber:hover{background:var(--al);color:#fff}
+label{font-size:12px;color:var(--t2);display:block;margin-bottom:5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+.required::after{content:' *';color:var(--rl)}
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.02em;white-space:nowrap}
+.bg-green{background:var(--gb);color:var(--green);border:1px solid var(--gl)}
+.bg-amber{background:var(--ab);color:var(--amb);border:1px solid var(--al)}
+.bg-red{background:var(--rb);color:var(--rl);border:1px solid var(--red)}
+.bg-blue{background:var(--bb);color:var(--blue);border:1px solid var(--bl)}
+.bg-purple{background:var(--pb);color:var(--pur);border:1px solid var(--pl)}
+.bg-gold{background:var(--gold-bg);color:var(--gold-d);border:1px solid var(--gold)}
+.bg-grey{background:var(--s3);color:var(--t2);border:1px solid var(--bd)}
+.bg-teal{background:var(--tb);color:var(--teal);border:1px solid var(--tl)}
+.bg-navy{background:#E8ECF4;color:var(--navy);border:1px solid var(--bd2)}
+/* ── CARDS ── */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+.card-sm{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;box-shadow:var(--shadow)}
+.card-hover{transition:box-shadow var(--trans),border-color var(--trans),transform var(--trans);cursor:pointer}
+.card-hover:hover{box-shadow:var(--shadow2);border-color:var(--gold);transform:translateY(-1px)}
+.card-hover:active{transform:translateY(0);box-shadow:var(--shadow)}
+/* ── LAYOUT ── */
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.fg{display:flex;flex-direction:column;gap:14px}
+.divider{height:1.5px;background:var(--bd);margin:12px 0}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+@media(max-width:540px){.row2,.row3{grid-template-columns:1fr}}
+/* ── TYPOGRAPHY ── */
+h1{font-size:22px;font-weight:900;color:var(--navy);letter-spacing:-.3px}
+h2{font-size:18px;font-weight:900;color:var(--navy)}
+h3{font-size:15px;font-weight:800;color:var(--t1)}
+h4{font-size:13px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.05em}
+/* ── APP CHROME ── */
+#header{
+  background:var(--navy);border-bottom:3px solid var(--gold);
+  padding:0 16px;display:flex;align-items:center;justify-content:space-between;
+  height:56px;flex-shrink:0;gap:10px;
+  box-shadow:0 2px 12px rgba(10,20,40,.25);z-index:100;position:relative}
+#nav-bar{
+  background:var(--s1);border-top:1.5px solid var(--bd);
+  display:flex;justify-content:space-around;align-items:stretch;
+  height:calc(60px + env(safe-area-inset-bottom,0px));flex-shrink:0;box-shadow:0 -2px 8px rgba(10,20,40,.08);
+  z-index:100;position:relative;padding:0 4px env(safe-area-inset-bottom,0px) 4px}
+.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  flex:1;padding:6px 4px;border:none;background:transparent;color:var(--t3);
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+  cursor:pointer;transition:color var(--trans);position:relative;border-radius:var(--rs)}
+.nav-item .nav-icon{font-size:18px;line-height:1;transition:transform var(--trans)}
+.nav-item.active{color:var(--navy)}.nav-item.active .nav-icon{transform:translateY(-2px)}
+.nav-item.active::before{content:'';position:absolute;top:0;left:20%;right:20%;height:3px;background:var(--gold);border-radius:0 0 4px 4px}
+.nav-badge{position:absolute;top:4px;right:20%;background:var(--rl);color:#fff;font-size:9px;font-weight:900;min-width:16px;height:16px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid var(--s1)}
+#main{flex:1;overflow:hidden;display:flex}
+#content{flex:1;overflow-y:auto;padding:14px 16px;-webkit-overflow-scrolling:touch}
+/* ── DESKTOP NAV OVERRIDE ── */
+@media(min-width:768px){
+  #nav-bar{display:none}
+  #desktop-nav{display:flex;gap:2px;overflow-x:auto;flex:1;margin:0 8px}
+  #desktop-nav button{padding:6px 12px;background:transparent;color:rgba(255,255,255,.65);border-radius:var(--rs);font-size:12px;font-weight:700;border:none;white-space:nowrap;position:relative}
+  #desktop-nav button.active{background:rgba(255,255,255,.18);color:#fff}
+  #desktop-nav button.active::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:3px;background:var(--gold);border-radius:2px 2px 0 0}
+  #desktop-nav button:hover:not(.active){color:#fff;background:rgba(255,255,255,.1)}
+}
+@media(max-width:767px){#desktop-nav{display:none}}
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(10,20,40,.7);display:flex;align-items:flex-end;justify-content:center;z-index:900;padding:0;backdrop-filter:blur(3px)}
+@media(min-width:600px){.overlay{align-items:center;padding:16px}}
+.modal{background:var(--s1);border-radius:var(--r3) var(--r3) 0 0;width:100%;max-width:680px;max-height:92dvh;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow3);animation:slideUp .25s cubic-bezier(.4,0,.2,1)}
+@media(min-width:600px){.modal{border-radius:var(--r2);max-height:88vh}}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-drag{width:40px;height:4px;background:var(--bd2);border-radius:2px;margin:10px auto 0;flex-shrink:0}
+@media(min-width:600px){.modal-drag{display:none}}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1.5px solid var(--bd);position:sticky;top:0;background:var(--s1);z-index:1}
+.modal-hd h3{color:var(--navy);font-size:16px}
+.modal-bd{padding:18px 20px;padding-bottom:calc(18px + env(safe-area-inset-bottom))}
+.close-btn{background:var(--s3);color:var(--t2);font-size:14px;padding:6px 10px;border-radius:var(--rs);border:1.5px solid var(--bd);font-weight:700}
+.close-btn:hover{background:var(--bd);color:var(--t1)}
+/* ── STAGE TRACKER ── */
+.stage-track{display:flex;align-items:flex-start;overflow-x:auto;padding:8px 0 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.stage-track::-webkit-scrollbar{display:none}
+.stage-node{display:flex;flex-direction:column;align-items:center;min-width:68px}
+.stage-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:2.5px solid var(--bd);background:var(--s3);transition:all .35s;flex-shrink:0;font-weight:900}
+.stage-dot.done{background:var(--green);border-color:var(--gl);color:#fff;box-shadow:0 0 0 4px var(--gs)}
+.stage-dot.active{background:var(--navy);border-color:var(--gold);color:var(--gold);animation:stagePulse 2.5s infinite}
+.stage-dot.next{border-color:var(--bl);background:var(--bs);color:var(--blue)}
+.stage-dot.locked{border-color:var(--bd);background:var(--s3);color:var(--t4)}
+.stage-lbl{font-size:10px;color:var(--t3);text-align:center;margin-top:4px;line-height:1.3;font-weight:700;padding:0 2px}
+.stage-lbl.done{color:var(--green)}.stage-lbl.active{color:var(--navy);font-weight:900}
+.stage-line{flex:1;height:3px;background:var(--bd);margin-top:16px;min-width:6px;border-radius:2px;transition:background .4s}
+.stage-line.done{background:var(--green)}.stage-line.active{background:var(--gold)}
+@keyframes stagePulse{0%,100%{box-shadow:0 0 0 0 rgba(184,148,10,.4)}60%{box-shadow:0 0 0 8px rgba(184,148,10,0)}}
+/* ── PROGRESS BAR ── */
+.pbar{background:var(--s3);border-radius:20px;height:7px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:20px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+/* ── CHAT ── */
+.chat-msg{display:flex;gap:8px;margin-bottom:12px}
+.chat-msg.me{flex-direction:row-reverse}
+.chat-bubble{max-width:80%;background:var(--s2);border:1.5px solid var(--bd);border-radius:14px;padding:9px 14px;font-size:14px;word-break:break-word;font-weight:600;color:var(--t1);line-height:1.5}
+.chat-msg.me .chat-bubble{background:var(--navy);border-color:rgba(184,148,10,.4);color:#fff}
+.avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0}
+/* ── STATS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-bottom:16px}
+.stat-card{background:var(--s1);border-radius:var(--r);padding:14px 12px;text-align:center;border:1px solid var(--bd);box-shadow:var(--shadow)}
+.stat-val{font-size:28px;font-weight:900;line-height:1}
+.stat-lbl{font-size:11px;color:var(--t3);margin-top:4px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+/* ── AUDIT ── */
+.audit-entry{padding:10px 14px;border-left:4px solid var(--bd2);margin-bottom:8px;background:var(--s2);border-radius:0 var(--rs) var(--rs) 0;font-size:13px}
+.audit-entry.ok{border-color:var(--gl);background:var(--gs)}
+.audit-entry.issue{border-color:var(--rl);background:var(--rsoft)}
+.audit-entry.info{border-color:var(--bl);background:var(--bs)}
+.audit-entry.warn{border-color:var(--al);background:var(--as)}
+.audit-entry.system{border-color:var(--pl);background:var(--ps)}
+/* ── TRANSIT ── */
+.transit-item{background:var(--s2);border-left:4px solid var(--bd2);padding:10px 14px;border-radius:0 var(--rs) var(--rs) 0;font-size:13px;font-weight:600}
+.transit-item.issue{border-color:var(--rl);background:var(--rb)}
+.transit-item.ok{border-color:var(--gl);background:var(--gb)}
+.transit-item.delay{border-color:var(--al);background:var(--ab)}
+/* ── TOAST ── */
+#toast-container{position:fixed;bottom:max(80px,env(safe-area-inset-bottom,80px));left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;min-width:200px}
+.toast-msg{background:var(--navy);border:2px solid var(--gold);border-radius:var(--r);padding:11px 22px;font-size:13px;font-weight:800;color:var(--gold);box-shadow:var(--shadow3);white-space:nowrap;animation:toastIn .3s cubic-bezier(.4,0,.2,1);opacity:1;transition:opacity .35s}
+.toast-msg.success{background:var(--green);border-color:var(--gl);color:#fff}
+.toast-msg.error{background:var(--red);border-color:var(--rl);color:#fff}
+.toast-msg.warn{background:var(--al);border-color:var(--amb);color:#fff}
+.toast-msg.info{background:var(--blue);border-color:var(--bl);color:#fff}
+@keyframes toastIn{from{opacity:0;transform:translateY(16px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+/* ── NOTIF PANEL ── */
+#notif-panel{position:fixed;top:56px;right:0;width:min(340px,100vw);background:var(--s1);border-left:1.5px solid var(--bd);border-bottom:1.5px solid var(--bd);z-index:500;max-height:calc(100vh - 56px);overflow-y:auto;box-shadow:var(--shadow3);animation:slideIn .2s ease-out}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.notif-item{padding:12px 16px;border-bottom:1px solid var(--bd);cursor:pointer;transition:background var(--trans)}
+.notif-item:hover{background:var(--s2)}
+.notif-item.unread{background:var(--gold-bg);border-left:4px solid var(--gold)}
+.notif-item.unread .notif-title{color:var(--navy)}
+.notif-title{font-size:13px;font-weight:800;color:var(--t1)}
+.notif-body{font-size:12px;color:var(--t2);margin-top:2px;font-weight:600;line-height:1.4}
+.notif-time{font-size:10px;color:var(--t3);margin-top:4px;font-weight:600}
+/* ── GUEST PORTAL ── */
+.ge-portal{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 60%,#1A4A6A 100%);min-height:100dvh;min-height:100vh;padding:20px 16px;padding-bottom:calc(24px + env(safe-area-inset-bottom));overflow-y:auto}
+.ge-card{background:var(--s1);border-radius:var(--r2);padding:20px;margin-bottom:14px;box-shadow:var(--shadow3)}
+.ge-stage-item{display:flex;align-items:flex-start;gap:14px;padding:14px;border-radius:var(--r);margin-bottom:8px;border:2px solid var(--bd);background:var(--s2);transition:all var(--trans)}
+.ge-stage-item.done{border-color:var(--gl);background:var(--gs)}
+.ge-stage-item.active{border-color:var(--gold);background:var(--gold-bg);box-shadow:0 0 0 3px rgba(184,148,10,.12)}
+.ge-stage-item.locked{opacity:.5}
+.ge-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;font-weight:900}
+.ge-icon.done{background:var(--green);color:#fff}
+.ge-icon.active{background:var(--navy);color:var(--gold)}
+.ge-icon.locked{background:var(--s4);color:var(--t4)}
+/* ── TRIGGER BANNER ── */
+.trigger-banner{background:linear-gradient(90deg,var(--gs),var(--gb));border:2px solid var(--gl);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px;box-shadow:var(--shadow)}
+.trigger-banner strong{color:var(--green);font-size:14px;display:block;font-weight:900}
+.trigger-banner p{color:var(--t2);font-size:12px;font-weight:600;margin-top:2px}
+/* ── MAP LINK ── */
+.map-link{display:inline-flex;align-items:center;gap:6px;background:var(--bb);color:var(--blue);border:1.5px solid var(--bl);border-radius:var(--rs);padding:8px 14px;font-size:13px;font-weight:800;text-decoration:none;transition:all var(--trans)}
+.map-link:hover{background:var(--blue);color:#fff}
+/* ── VEHICLE PILL ── */
+.v-pill{display:inline-flex;align-items:center;gap:8px;background:var(--s2);border:1.5px solid var(--bd);border-radius:var(--rs);padding:8px 12px;font-size:13px;font-weight:700}
+/* ── INFO BOX ── */
+.info-box{border-radius:var(--rs);padding:12px 14px;font-size:13px;font-weight:700;display:flex;gap:10px;align-items:flex-start}
+.info-box.gold{background:var(--gold-bg);border:1.5px solid var(--gold);color:var(--gold-d)}
+.info-box.blue{background:var(--bs);border:1.5px solid var(--bl);color:var(--blue)}
+.info-box.red{background:var(--rs);border:1.5px solid var(--rl);color:var(--rl)}
+.info-box.green{background:var(--gs);border:1.5px solid var(--gl);color:var(--green)}
+.info-box.amber{background:var(--as);border:1.5px solid var(--al);color:var(--amb)}
+.info-box-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+/* ── PROFILE CARD ── */
+.profile-card{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:var(--r2);padding:20px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden}
+.profile-card::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05)}
+.profile-card::after{content:'';position:absolute;bottom:-30px;left:-20px;width:120px;height:120px;border-radius:50%;background:rgba(184,148,10,.08)}
+/* ── SECTION HEADER ── */
+.section-title{font-size:11px;font-weight:900;color:var(--gold-d);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--bd)}
+/* ── SEARCH ── */
+.search-wrap{position:relative}.search-wrap input{padding-left:38px}
+.search-wrap::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;z-index:1;pointer-events:none}
+/* ── RESPONSIVE PADDING ── */
+@media(max-width:767px){#content{padding:12px}}
+@media(min-width:768px){#content{padding:20px 24px;max-width:1200px;margin:0 auto;width:100%}}
+/* ── STATUS DOT ── */
+.status-dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0}
+.status-dot.green{background:var(--gl)}.status-dot.amber{background:var(--al)}
+.status-dot.red{background:var(--rl)}.status-dot.grey{background:var(--t4)}
+/* ── PLATFORM WARNING ── */
+.platform-warn{background:var(--as);border:1.5px solid var(--al);border-radius:var(--rs);padding:10px 14px;font-size:12px;font-weight:700;color:var(--amb);text-align:center}
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:48px 24px;color:var(--t3)}
+.empty-state .es-icon{font-size:48px;margin-bottom:14px;opacity:.6}
+.empty-state .es-title{font-size:16px;font-weight:800;color:var(--t2);margin-bottom:6px}
+.empty-state .es-desc{font-size:13px;font-weight:600;line-height:1.5}
+/* ── QUICK ACTIONS ── */
+.quick-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+/* ── SKELETON ── */
+.skeleton{background:linear-gradient(90deg,var(--s3) 25%,var(--s4) 50%,var(--s3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--rs)}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* ── ANIMATIONS ── */
+.fade-in{animation:fadeIn .2s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast-container"></div>
+<script>
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// NSPPD PROTOCOL VIP TRACKER 2026 — FINAL PRODUCTION BUILD
+// Old Trafford Stadium, Manchester · 25-26 September 2026
+// ⚠️  IMPORTANT: localStorage is device-local. For multi-device real-time sync,
+//     integrate Firebase Realtime DB or Supabase. This build is a single-device
+//     command-and-control tool — designate one Admin device as the source of truth.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// ── CONSTANTS ──────────────────────────────────────────────────────────────────
+const STAGES = [
+  {id:'airport_arrival', icon:'✈', label:'Airport Arrival',     desc:'Meet guest at arrivals hall, identity check, luggage'},
+  {id:'hotel_escort',    icon:'🏨', label:'Hotel Escort',        desc:'Transport guest to hotel, facilitate check-in'},
+  {id:'hotel_stadium',   icon:'🏟', label:'Hotel → Stadium',     desc:'Event day transfer to Old Trafford VIP entrance'},
+  {id:'in_event',        icon:'⭐', label:'In-Event Service',    desc:'Personal protocol detail throughout the conference'},
+  {id:'stadium_hotel',   icon:'🌙', label:'Stadium → Hotel',     desc:'Post-event phased departure and hotel return'},
+  {id:'hotel_airport',   icon:'🛫', label:'Hotel → Airport',     desc:'Departure transfer and farewell at check-in'},
+];
+
+const STATUS_MAP = {
+  pending:     ['bg-grey',   'Pending',    ''],
+  assigned:    ['bg-blue',   'Assigned',   ''],
+  accepted:    ['bg-purple', 'Accepted',   ''],
+  active:      ['bg-amber',  'Active',     ''],
+  in_transit:  ['bg-amber',  'In Transit', ''],
+  issue:       ['bg-red',    'Issue',      '⚠'],
+  completed:   ['bg-green',  'Completed',  '✓'],
+  cancelled:   ['bg-red',    'Cancelled',  '✗'],
+};
+
+const DOMAINS = ['Airport Team','Hotel Team','Venue Team','Transport Team','VIP Detail Team','Command & Control','Welfare & Rotation','Stage Perimeter'];
+const VEHICLE_TYPES = ['Executive Minibus','Coach (16-seat)','Coach (40-seat)','WAV Minibus','Sedan/Executive Car','MPV (7-seat)'];
+
+// ── HELPERS ────────────────────────────────────────────────────────────────────
+const gid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const now = () => new Date().toISOString();
+const fmtDT = iso => {if(!iso) return '—'; const d=new Date(iso); return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});};
+const fmtDate = iso => {if(!iso) return '—'; return new Date(iso).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});};
+const fmtTime = iso => {if(!iso) return '—'; return new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});};
+const ago = iso => {if(!iso) return ''; const s=Math.floor((Date.now()-new Date(iso))/1000); if(s<60) return s+'s'; if(s<3600) return Math.floor(s/60)+'m'; if(s<86400) return Math.floor(s/3600)+'h'; return fmtDate(iso);};
+const inits = n => (n||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() || '??';
+const last4 = p => (p||'').replace(/\D/g,'').slice(-4);
+const nextStageId = cid => { const i=STAGES.findIndex(s=>s.id===cid); return i>=0&&i<STAGES.length-1 ? STAGES[i+1].id : null; };
+const stageLabel = id => STAGES.find(s=>s.id===id)?.label || id;
+const stageIcon  = id => STAGES.find(s=>s.id===id)?.icon  || '•';
+const load = (k,d) => { try { const v=localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; }};
+const store = (k,v) => { try { localStorage.setItem(k,JSON.stringify(v)); } catch {} };
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+// ── BADGE / STATUS ─────────────────────────────────────────────────────────────
+const sBadge = status => {
+  const [cls,label,icon] = STATUS_MAP[status] || ['bg-grey', status, ''];
+  return `<span class="badge ${cls}">${icon?icon+' ':''}${label}</span>`;
+};
+
+// ── SEED DATA ──────────────────────────────────────────────────────────────────
+const SEED_STAFF = [
+  {id:'s001',name:'Joseph Mokwugwo',   role:'admin',   pin:'0000',domain:'Command & Control',   phone:'+447700900001',color:'#B8940A',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
+  {id:'s002',name:'Sarah Adebayo',     role:'admin',   pin:'1111',domain:'Command & Control',   phone:'+447700900002',color:'#1460B8',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
+  {id:'s003',name:'V-012 Thomas A.',   role:'protocol',pin:'0012',domain:'Airport Team',        phone:'+447700900012',color:'#128A48',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
+  {id:'s004',name:'V-027 Grace M.',    role:'protocol',pin:'0027',domain:'Airport Team',        phone:'+447700900027',color:'#7030A0',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
+  {id:'s005',name:'V-034 David K.',    role:'protocol',pin:'0034',domain:'Venue Team',          phone:'+447700900034',color:'#B85000',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
+  {id:'s006',name:'V-045 Rachel O.',   role:'protocol',pin:'0045',domain:'Hotel Team',          phone:'+447700900045',color:'#0A6880',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
+  {id:'s007',name:'V-056 Ahmed S.',    role:'protocol',pin:'0056',domain:'Hotel Team',          phone:'+447700900056',color:'#B81818',active:true,joinedAt:'2026-01-01T00:00:00.000Z'},
+];
+
+const SEED_GUESTS = [
+  {id:'g001',name:'Dr Emmanuel Adeyemi',   title:'Senior Pastor',nationality:'Nigerian',   flag:'🇳🇬',origin:'Nigeria',
+   arrivalAirport:'London Heathrow (LHR)', departureAirport:'London Heathrow (LHR)',
+   flightNoArr:'BA0076',flightNoDep:'BA0077',eta:'2026-09-24T08:30',etd:'2026-09-27T10:00',
+   hotel:'Hilton Deansgate, 303 Deansgate, Manchester M3 4LQ',hotelRoom:'702',
+   detailLead:'V-012 Thomas A.',accessible:false,notes:'Vegetarian meals required',
+   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'ADY001'},
+  {id:'g002',name:'Rev Gloria Mensah',     title:'Minister',       nationality:'Ghanaian',  flag:'🇬🇭',origin:'Ghana',
+   arrivalAirport:'London Heathrow (LHR)', departureAirport:'London Heathrow (LHR)',
+   flightNoArr:'KL1009',flightNoDep:'KL1010',eta:'2026-09-24T11:15',etd:'2026-09-27T14:00',
+   hotel:'Lowry Hotel, 50 Dearmans Place, Manchester M3 5LH',hotelRoom:'305',
+   detailLead:'V-027 Grace M.',accessible:false,notes:'',
+   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'MEN002'},
+  {id:'g003',name:'Bishop Samuel Osei',    title:'Bishop',         nationality:'South African',flag:'🇿🇦',origin:'South Africa',
+   arrivalAirport:'London Heathrow (LHR)', departureAirport:'London Heathrow (LHR)',
+   flightNoArr:'BA0057',flightNoDep:'BA0058',eta:'2026-09-24T14:00',etd:'2026-09-27T16:00',
+   hotel:'Hilton Deansgate, 303 Deansgate, Manchester M3 4LQ',hotelRoom:'801',
+   detailLead:'V-034 David K.',accessible:true,notes:'Wheelchair accessible vehicle required at all times',
+   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'OSE003'},
+  {id:'g004',name:'Pastor Grace Williams', title:'Lead Pastor',    nationality:'Canadian',  flag:'🇨🇦',origin:'Canada',
+   arrivalAirport:'Manchester Airport (MAN)',departureAirport:'Manchester Airport (MAN)',
+   flightNoArr:'AC0856',flightNoDep:'AC0857',eta:'2026-09-24T16:45',etd:'2026-09-27T09:30',
+   hotel:'Lowry Hotel, 50 Dearmans Place, Manchester M3 5LH',hotelRoom:'210',
+   detailLead:'V-045 Rachel O.',accessible:false,notes:'',
+   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'WIL004'},
+  {id:'g005',name:'Apostle James Okonkwo', title:'Apostle',        nationality:'Nigerian',  flag:'🇳🇬',origin:'Nigeria',
+   arrivalAirport:'Manchester Airport (MAN)',departureAirport:'Manchester Airport (MAN)',
+   flightNoArr:'AP0234',flightNoDep:'AP0235',eta:'2026-09-24T19:20',etd:'2026-09-28T08:00',
+   hotel:'Marriott City Centre, 1 Portland St, Manchester M1 3BE',hotelRoom:'412',
+   detailLead:'V-056 Ahmed S.',accessible:false,notes:'Gluten-free diet — inform hotel catering',
+   eventLocation:'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',trackCode:'OKO005'},
+];
+
+const SEED_VEHICLES = [
+  {id:'v001',type:'Executive Minibus',reg:'MK26 ABC',driver:'Thomas Hamill', phone:'+447700800001',capacity:8, available:true,notes:''},
+  {id:'v002',type:'Executive Minibus',reg:'MK26 DEF',driver:'Rachel Obi',    phone:'+447700800002',capacity:8, available:true,notes:''},
+  {id:'v003',type:'Coach (16-seat)',  reg:'MK26 GHI',driver:'David Khan',    phone:'+447700800003',capacity:16,available:true,notes:''},
+  {id:'v004',type:'WAV Minibus',      reg:'MK26 JKL',driver:'Lisa Morton',   phone:'+447700800004',capacity:6, available:true,notes:'Full wheelchair access, ramp equipped'},
+  {id:'v005',type:'Executive Minibus',reg:'MK26 MNO',driver:'Ahmed Saleh',   phone:'+447700800005',capacity:8, available:true,notes:''},
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const S = {
+  staff:    load('p26_staff',    SEED_STAFF),
+  guests:   load('p26_guests',   SEED_GUESTS),
+  vehicles: load('p26_vehicles', SEED_VEHICLES),
+  tasks:    load('p26_tasks',    []),
+  messages: load('p26_msgs',     []),
+  audit:    load('p26_audit',    []),
+  notifs:   load('p26_notifs',   []),
+  user: null, view: 'dashboard', modal: null, mData: null,
+  chatOpen: false, notifOpen: false, trigBanner: null,
+  chatChannel: 'general',
+};
+const commit = k => store('p26_'+k, S[k]);
+
+// ── AUDIT + NOTIF ──────────────────────────────────────────────────────────────
+const addAudit = e => { S.audit.unshift({id:gid(), ts:now(), ...e}); commit('audit'); };
+const addNotif = (uid,title,body,tid) => { S.notifs.unshift({id:gid(),userId:uid,title,body,taskId:tid,ts:now(),read:false}); commit('notifs'); };
+
+// ── TOAST ──────────────────────────────────────────────────────────────────────
+const toast = (msg, type='default', dur=3000) => {
+  const c = document.getElementById('toast-container');
+  if(!c) return;
+  const el = document.createElement('div');
+  el.className = 'toast-msg' + (type !== 'default' ? ' '+type : '');
+  el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(() => { el.style.opacity='0'; setTimeout(()=>el.remove(), 400); }, dur);
+};
+
+// ── AUTO-TRIGGER NEXT STAGE ────────────────────────────────────────────────────
+const triggerNextStage = done => {
+  const nid = nextStageId(done.stage);
+  if(!nid) return null;
+  const nxt = S.tasks.find(t => t.guestId===done.guestId && t.stage===nid && !['completed','cancelled'].includes(t.status));
+  if(!nxt) return null;
+  nxt.status = 'active'; nxt.startedAt = now(); nxt.autoTriggered = true;
+  S.tasks = S.tasks.map(t => t.id===nxt.id ? nxt : t);
+  const g = S.guests.find(x => x.id===nxt.guestId);
+  const a = S.staff.find(s => s.id===nxt.assigneeId);
+  addAudit({type:'auto_triggered', taskId:nxt.id, guestId:nxt.guestId, stage:nxt.stage, userId:'system',
+    detail:`${stageLabel(nxt.stage)} auto-started for ${g?.name||''} (${stageLabel(done.stage)} completed)`, logType:'system'});
+  addNotif(nxt.assigneeId, '🚀 Stage Auto-Started', `${stageIcon(nxt.stage)} ${stageLabel(nxt.stage)} for ${g?.name||''} — report to position now.`, nxt.id);
+  S.staff.filter(s=>s.role==='admin').forEach(ad =>
+    addNotif(ad.id, '⛓ Auto-Trigger', `${g?.name||''}: ${stageLabel(done.stage)} → ${stageLabel(nxt.stage)} active (${a?.name||'—'})`, nxt.id));
+  commit('tasks'); commit('notifs');
+  return nxt;
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// RENDER ENGINE
+// ══════════════════════════════════════════════════════════════════════════════
+
+const render = () => {
+  const app = document.getElementById('app');
+  if(!S.user) { app.innerHTML = rLogin(); bindLogin(); return; }
+  if(S.user.role === 'guest') { app.innerHTML = rGuestPortal(); bindAll(); return; }
+  const isAdmin = S.user.role === 'admin';
+  const adminNav = [
+    {id:'dashboard', icon:'📊', label:'Dashboard'},
+    {id:'guests',    icon:'👑', label:'Guests'},
+    {id:'tasks',     icon:'📋', label:'Tasks'},
+    {id:'map',       icon:'🗺',  label:'Map'},
+    {id:'vehicles',  icon:'🚐', label:'Fleet'},
+    {id:'staff',     icon:'👥', label:'Staff'},
+    {id:'audit',     icon:'📁', label:'Audit'},
+  ];
+  const staffNav = [
+    {id:'my_tasks',   icon:'📋', label:'My Tasks'},
+    {id:'my_journey', icon:'🗺',  label:'Journey'},
+    {id:'my_guest',   icon:'👤', label:'My Guest'},
+  ];
+  const nav = isAdmin ? adminNav : staffNav;
+  const unN = S.notifs.filter(n=>n.userId===S.user.id&&!n.read).length;
+  const unM = S.messages.filter(m=>m.senderId!==S.user.id).length;
+
+  app.innerHTML = `
+    ${rHeader(nav, unN, unM)}
+    <div id="main">
+      <div id="content" class="fade-in">${S.trigBanner?rTrigBanner():''}${rView()}</div>
+      ${S.chatOpen ? `<div id="chat-panel" style="width:min(340px,100vw);background:var(--s1);border-left:1.5px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0">${rChat()}</div>` : ''}
+    </div>
+    ${rMobileNav(nav, unN)}
+    ${S.notifOpen ? rNotifPanel() : ''}
+    ${S.modal ? rModal() : ''}
+  `;
+  bindAll();
+  document.getElementById('content')?.scrollTo(0,0);
+};
+
+// ── LOGIN ──────────────────────────────────────────────────────────────────────
+const rLogin = () => `
+<div id="login" style="min-height:100dvh;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 60%,#1A4060 100%);padding:20px">
+  <div style="width:100%;max-width:420px">
+    <div style="text-align:center;margin-bottom:28px;color:#fff">
+      <div style="font-size:56px;margin-bottom:10px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))">🛡️</div>
+      <h1 style="color:#fff;font-size:22px;letter-spacing:-.3px">NSPPD Protocol</h1>
+      <p style="color:rgba(255,255,255,.65);font-size:13px;font-weight:700;margin-top:4px">VIP Journey Tracker · Old Trafford 2026</p>
+    </div>
+    <div style="background:var(--s1);border-radius:var(--r2);padding:24px;box-shadow:var(--shadow3)">
+      <div class="fg">
+        <div><label class="required">Name / Volunteer ID</label><input id="li-name" placeholder="e.g. Joseph Mokwugwo or V-012 Thomas A." autocomplete="off" inputmode="text"/></div>
+        <div><label class="required">PIN / Password</label><input id="li-pin" type="password" placeholder="Enter PIN" maxlength="8" inputmode="numeric"/></div>
+        <div id="li-err" style="display:none" class="info-box red"><span class="info-box-icon">⚠</span><span id="li-err-text"></span></div>
+        <button class="btn btn-primary" id="li-btn" style="width:100%;padding:13px;font-size:15px">Sign In →</button>
+      </div>
+      <div style="margin:20px 0;display:flex;align-items:center;gap:10px"><div style="flex:1;height:1.5px;background:var(--bd)"></div><span style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em">or track a journey</span><div style="flex:1;height:1.5px;background:var(--bd)"></div></div>
+      <div class="fg">
+        <div><label>Guest Tracking Code</label><input id="li-code" placeholder="Enter your code (e.g. ADY001)" style="text-align:center;font-size:16px;font-weight:900;letter-spacing:.15em" inputmode="text"/></div>
+        <button class="btn btn-info" id="li-gst" style="width:100%;padding:11px">🔍 Track My Journey</button>
+      </div>
+      <div style="margin-top:18px;padding-top:14px;border-top:1.5px solid var(--bd);font-size:11px;color:var(--t3);text-align:center;font-weight:700;line-height:2.2">
+        Admin: Joseph Mokwugwo / 0000 &nbsp;·&nbsp; Sarah Adebayo / 1111<br>
+        Staff: V-012 Thomas A. / 0012 &nbsp;·&nbsp; V-027 Grace M. / 0027<br>
+        <span style="color:var(--gold-d)">Guest codes: ADY001 · MEN002 · OSE003 · WIL004 · OKO005</span>
+      </div>
+    </div>
+    <p style="text-align:center;color:rgba(255,255,255,.35);font-size:11px;margin-top:16px;font-weight:600">NSPPD Protocol Department · Old Trafford · Sep 2026</p>
+  </div>
+</div>`;
+
+const bindLogin = () => {
+  const err = id => { document.getElementById('li-err').style.display='flex'; document.getElementById('li-err-text').textContent=id; };
+  const doLogin = () => {
+    const n = document.getElementById('li-name').value.trim();
+    const p = document.getElementById('li-pin').value.trim();
+    const nn = n.replace(/\s+/g,' ').toLowerCase();
+    const cands = S.staff.filter(s => {
+      if(!s.active) return false;
+      const full = s.name.trim().replace(/\s+/g,' ').toLowerCase();
+      return full===nn || full.split(' ')[0]===nn || (nn.length>=3 && full.startsWith(nn));
+    });
+    const u = cands.find(s => s.pin===p);
+    if(u) { S.user=u; S.view=u.role==='admin'?'dashboard':'my_tasks'; render(); }
+    else err('Invalid name or PIN. Protocol staff PIN = last 4 digits of your registered phone number.');
+  };
+  const doGuest = () => {
+    const code = document.getElementById('li-code').value.trim().toUpperCase();
+    const g = S.guests.find(x => (x.trackCode||'').toUpperCase()===code);
+    if(g) { S.user={id:'guest_'+g.id, name:g.name, role:'guest', guestId:g.id, color:'#B8940A'}; render(); }
+    else err('Tracking code not found. Please check with your Protocol Detail Lead.');
+  };
+  document.getElementById('li-btn').onclick = doLogin;
+  document.getElementById('li-pin').onkeydown = e => { if(e.key==='Enter') doLogin(); };
+  document.getElementById('li-gst').onclick = doGuest;
+  document.getElementById('li-code').oninput = function(){ this.value=this.value.toUpperCase(); };
+  document.getElementById('li-code').onkeydown = e => { if(e.key==='Enter') doGuest(); };
+};
+
+// ── HEADER ─────────────────────────────────────────────────────────────────────
+const rHeader = (nav, unN, unM) => `
+<div id="header">
+  <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+    <span style="font-size:24px;line-height:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3))">🛡️</span>
+    <div>
+      <div style="font-size:13px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.2px">NSPPD Protocol</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700">Old Trafford 2026</div>
+    </div>
+  </div>
+  <nav id="desktop-nav">
+    ${nav.map(n=>`<button data-nav="${n.id}" class="${S.view===n.id?'active':''}">${n.icon} ${n.label}</button>`).join('')}
+  </nav>
+  <div style="display:flex;align-items:center;gap:7px;flex-shrink:0">
+    <button id="notif-btn" class="btn-icon" style="background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.2);position:relative" aria-label="Notifications">
+      🔔${unN>0?`<span class="nav-badge" style="top:-2px;right:-2px">${unN>9?'9+':unN}</span>`:''}
+    </button>
+    <button id="chat-btn" class="btn-icon" style="background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.2);position:relative" aria-label="Team Chat">
+      💬${unM>0?`<span class="nav-badge" style="top:-2px;right:-2px">${unM>9?'9+':unM}</span>`:''}
+    </button>
+    <div class="avatar" style="width:36px;height:36px;font-size:13px;background:${S.user.color||'#B8940A'}28;border:2.5px solid ${S.user.color||'#B8940A'};color:${S.user.color||'#B8940A'}" title="${esc(S.user.name)}">${inits(S.user.name)}</div>
+    <button id="logout-btn" class="btn-icon" style="background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.2)" aria-label="Sign out">↩</button>
+  </div>
+</div>`;
+
+const rMobileNav = (nav, unN) => `
+<nav id="nav-bar">
+  ${nav.map(n=>`<button class="nav-item ${S.view===n.id?'active':''}" data-nav="${n.id}">
+    <span class="nav-icon">${n.icon}</span>${n.label}
+    ${n.id==='my_tasks'&&S.user.role==='protocol'&&S.tasks.filter(t=>t.assigneeId===S.user.id&&t.status==='assigned').length>0?`<span class="nav-badge">${S.tasks.filter(t=>t.assigneeId===S.user.id&&t.status==='assigned').length}</span>`:''}
+  </button>`).join('')}
+</nav>`;
+
+// ── VIEW ROUTER ────────────────────────────────────────────────────────────────
+const rView = () => {
+  switch(S.view) {
+    case 'dashboard':  return rDashboard();
+    case 'guests':     return rGuests();
+    case 'tasks':      return rTasks(S.tasks);
+    case 'map':        return rMap();
+    case 'vehicles':   return rVehicles();
+    case 'staff':      return rStaff();
+    case 'audit':      return rAudit();
+    case 'my_tasks':   return rTasks(S.tasks.filter(t=>t.assigneeId===S.user.id));
+    case 'my_journey': return rMyJourney();
+    case 'my_guest':   return rMyGuest();
+    default:           return rDashboard();
+  }
+};
+
+// ── TRIGGER BANNER ─────────────────────────────────────────────────────────────
+const rTrigBanner = () => {
+  const b = S.trigBanner;
+  return `<div class="trigger-banner">
+    <div style="font-size:24px;flex-shrink:0">⛓</div>
+    <div style="flex:1;min-width:0">
+      <strong>Stage Auto-Triggered: ${esc(stageLabel(b.next))}</strong>
+      <p>${esc(b.gName)} — ${esc(stageLabel(b.prev))} completed. ${esc(stageLabel(b.next))} now active for ${esc(b.aName)}.</p>
+    </div>
+    <button onclick="S.trigBanner=null;rContent()" class="btn-icon btn-ghost btn-sm" aria-label="Dismiss">✕</button>
+  </div>`;
+};
+
+// ── DASHBOARD ──────────────────────────────────────────────────────────────────
+const rDashboard = () => {
+  const {tasks,guests,staff} = S;
+  const active   = tasks.filter(t=>['active','accepted','in_transit'].includes(t.status));
+  const issues   = tasks.filter(t=>t.status==='issue');
+  const pending  = tasks.filter(t=>t.status==='assigned');
+  const done     = tasks.filter(t=>t.status==='completed').length;
+  const onShift  = staff.filter(s=>s.role==='protocol'&&s.active).length;
+
+  return `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2>Operations Dashboard</h2>
+      <p style="font-size:12px;color:var(--t3);font-weight:700;margin-top:2px">Old Trafford · 25–26 September 2026</p>
+    </div>
+    <button class="btn btn-primary btn-sm" data-modal="addTask">+ Assign Task</button>
+  </div>
+  <div class="platform-warn" style="margin-bottom:14px">⚠ Single-device mode: localStorage only. Designate one Admin device as operations hub. Changes on other devices will not sync automatically.</div>
+  <div class="stat-grid">
+    ${[['Total Tasks',tasks.length,'var(--navy)'],['Completed',done,'var(--green)'],['Active',active.length,'var(--al)'],['Issues',issues.length,'var(--rl)'],['Pending',pending.length,'var(--blue)'],['On Shift',onShift,'var(--pur)']].map(([l,v,c])=>`<div class="stat-card"><div class="stat-val" style="color:${c}">${v}</div><div class="stat-lbl">${l}</div></div>`).join('')}
+  </div>
+  ${issues.length>0?`<div class="info-box red" style="margin-bottom:14px"><span class="info-box-icon">🚨</span><div style="flex:1"><strong style="display:block;margin-bottom:6px">${issues.length} Active Issue${issues.length>1?'s':''} — Immediate Attention Required</strong>${issues.map(t=>{const g=guests.find(x=>x.id===t.guestId);return`<div style="font-size:13px;margin-bottom:4px;display:flex;align-items:center;gap:8px">${g?.flag||'👤'} <strong>${esc(g?.name||'Unknown')}</strong> — ${esc(stageLabel(t.stage))} <button class="btn btn-xs btn-danger" data-task-view="${t.id}" style="margin-left:auto">View</button></div>`;}).join('')}</div></div>`:''}
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+    <div class="card">
+      <h4 style="color:var(--al);margin-bottom:10px">⚡ Active (${active.length})</h4>
+      ${active.length===0?`<div style="color:var(--t4);font-size:13px;font-weight:700;text-align:center;padding:14px 0">All clear</div>`:''}
+      ${active.slice(0,5).map(t=>{const g=guests.find(x=>x.id===t.guestId);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:13px;cursor:pointer" data-task-view="${t.id}">
+        <span style="font-size:18px">${g?.flag||'👤'}</span>
+        <div style="flex:1;min-width:0"><div style="font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(g?.name||'—')}</div><div style="font-size:11px;color:var(--t3);font-weight:600">${stageIcon(t.stage)} ${stageLabel(t.stage)}</div></div>
+        ${sBadge(t.status)}
+      </div>`;}).join('')}
+    </div>
+    <div class="card">
+      <h4 style="color:var(--blue);margin-bottom:10px">⏳ Awaiting (${pending.length})</h4>
+      ${pending.length===0?`<div style="color:var(--t4);font-size:13px;font-weight:700;text-align:center;padding:14px 0">None pending</div>`:''}
+      ${pending.slice(0,5).map(t=>{const g=guests.find(x=>x.id===t.guestId);const a=S.staff.find(s=>s.id===t.assigneeId);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:13px">
+        <span style="font-size:18px">${g?.flag||'👤'}</span>
+        <div style="flex:1;min-width:0"><div style="font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(g?.name||'—')}</div><div style="font-size:11px;color:var(--t3);font-weight:600">${esc(a?.name||'Unassigned')}</div></div>
+      </div>`;}).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <h4 style="margin-bottom:12px">👑 VIP Guest Journey Status</h4>
+    ${guests.map(g=>{
+      const gT=tasks.filter(t=>t.guestId===g.id);
+      const dc=gT.filter(t=>t.status==='completed').length;
+      const cur=gT.find(t=>['active','accepted','assigned','in_transit','issue'].includes(t.status));
+      const pct=Math.round(dc/STAGES.length*100);
+      return`<div class="card-hover" style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)" data-guest-view="${g.id}">
+        <span style="font-size:26px">${g.flag}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:900;font-size:14px">${esc(g.name)} <span style="font-size:11px;color:var(--t3);font-weight:600">· ${esc(g.title)}</span></div>
+          <div style="font-size:11px;color:var(--t3);font-weight:600;margin-top:1px">✈ ${esc(g.flightNoArr||'—')} · ${esc(g.arrivalAirport||'—')}</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:5px">
+            <div class="pbar" style="flex:1;max-width:160px"><div class="pbar-fill" style="width:${pct}%;background:${pct===100?'var(--green)':'var(--gold)'}"></div></div>
+            <span style="font-size:11px;color:var(--t3);font-weight:800">${dc}/${STAGES.length}</span>
+            ${cur?sBadge(cur.status):''}
+          </div>
+        </div>
+        <span style="color:var(--t3);font-size:18px;padding-right:4px">›</span>
+      </div>`;}).join('')}
+  </div>`;
+};
+
+// ── GUESTS ─────────────────────────────────────────────────────────────────────
+const rGuests = () => {
+  const q = (document.getElementById('gs-q')||{value:''}).value||'';
+  const fl = S.guests.filter(g=>!q||g.name.toLowerCase().includes(q.toLowerCase())||g.nationality.toLowerCase().includes(q.toLowerCase())||g.trackCode?.toLowerCase().includes(q.toLowerCase()));
+  return `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+    <h2>VIP Guest Register <span style="font-size:14px;color:var(--t3);font-weight:600">(${fl.length})</span></h2>
+    <button class="btn btn-primary btn-sm" data-modal="addGuest">+ Add Guest</button>
+  </div>
+  <div class="search-wrap" style="margin-bottom:12px"><input id="gs-q" placeholder="Search by name, nationality or code..." oninput="rContent()" value="${esc(q)}"></div>
+  ${fl.map(g=>{
+    const gT=S.tasks.filter(t=>t.guestId===g.id);
+    const dc=gT.filter(t=>t.status==='completed').length;
+    const cur=gT.find(t=>['active','accepted','in_transit','issue'].includes(t.status));
+    const pct=Math.round(dc/STAGES.length*100);
+    return`<div class="card card-hover" style="margin-bottom:10px" data-guest-view="${g.id}">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:48px;height:48px;border-radius:50%;background:var(--navy);border:2.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">${g.flag}</div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+            <span style="font-weight:900;font-size:15px">${esc(g.name)}</span>
+            <span class="badge bg-grey">${esc(g.title)}</span>
+            ${g.accessible?`<span class="badge bg-amber">♿ WAV</span>`:''}
+            ${g.trackCode?`<span class="badge bg-gold">🔖 ${esc(g.trackCode)}</span>`:''}
+          </div>
+          <div style="font-size:12px;color:var(--t2);font-weight:700;margin-bottom:4px">✈ ${esc(g.flightNoArr||'—')} · ${esc(g.arrivalAirport||'—')} · ETA ${fmtDT(g.eta)}</div>
+          <div style="font-size:12px;color:var(--t2);font-weight:600;margin-bottom:8px">🏨 ${esc(g.hotel||'—')} · Room ${esc(g.hotelRoom||'—')}</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="pbar" style="flex:1;max-width:180px"><div class="pbar-fill" style="width:${pct}%;background:${pct===100?'var(--green)':'var(--gold)'}"></div></div>
+            <span style="font-size:11px;color:var(--t3);font-weight:800">${dc}/${STAGES.length} stages</span>
+            ${cur?sBadge(cur.status):''}
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">
+          <button class="btn btn-navy btn-sm" data-guest-view="${g.id}">View</button>
+          <button class="btn btn-ghost btn-sm" data-modal="editGuest" data-id="${g.id}">Edit</button>
+        </div>
+      </div>
+    </div>`;}).join('')}
+  ${fl.length===0?`<div class="empty-state"><div class="es-icon">👑</div><div class="es-title">No guests found</div><div class="es-desc">Adjust your search or add a new guest</div></div>`:''}`;
+};
+
+// ── TASKS ──────────────────────────────────────────────────────────────────────
+const rTasks = tasks => {
+  const isA = S.user.role==='admin';
+  const fs = (document.getElementById('tf-s')||{value:'all'}).value||'all';
+  const fg = (document.getElementById('tf-g')||{value:'all'}).value||'all';
+  const fp = (document.getElementById('tf-p')||{value:'all'}).value||'all';
+  let fl = [...tasks];
+  if(fs!=='all') fl=fl.filter(t=>t.status===fs);
+  if(fg!=='all') fl=fl.filter(t=>t.stage===fg);
+  if(fp!=='all') fl=fl.filter(t=>t.priority===fp);
+  fl.sort((a,b)=>{const o={issue:0,active:1,in_transit:1,assigned:2,accepted:3,completed:4,cancelled:5};return(o[a.status]||3)-(o[b.status]||3);});
+  return `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px">
+    <h2>${isA?'All Tasks':'My Tasks'} <span style="font-size:14px;color:var(--t3);font-weight:600">(${fl.length})</span></h2>
+    ${isA?`<button class="btn btn-primary btn-sm" data-modal="addTask">+ New Task</button>`:''}
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <select id="tf-s" onchange="rContent()" style="flex:1;min-width:110px;width:auto">
+      <option value="all">All Status</option>
+      <option value="assigned">Assigned</option><option value="accepted">Accepted</option>
+      <option value="active">Active</option><option value="in_transit">In Transit</option>
+      <option value="issue">Issue</option><option value="completed">Completed</option>
+    </select>
+    <select id="tf-g" onchange="rContent()" style="flex:1;min-width:120px;width:auto">
+      <option value="all">All Stages</option>
+      ${STAGES.map(s=>`<option value="${s.id}">${s.icon} ${s.label}</option>`).join('')}
+    </select>
+    <select id="tf-p" onchange="rContent()" style="flex:1;min-width:100px;width:auto">
+      <option value="all">All Priority</option>
+      <option value="urgent">🔴 Urgent</option>
+      <option value="high">⚡ High</option>
+      <option value="normal">Normal</option>
+    </select>
+  </div>
+  ${fl.length===0?`<div class="empty-state"><div class="es-icon">📋</div><div class="es-title">No tasks found</div><div class="es-desc">Try adjusting filters${isA?' or create a new task':''}</div></div>`:''}
+  ${fl.map(t=>rTaskCard(t)).join('')}`;
+};
+
+const rTaskCard = t => {
+  const g = S.guests.find(x=>x.id===t.guestId);
+  const v = S.vehicles.find(x=>x.id===t.vehicleId);
+  const a = S.staff.find(s=>s.id===t.assigneeId);
+  const isMe = t.assigneeId===S.user.id;
+  const isA = S.user.role==='admin';
+  const latestTr = (t.transitUpdates||[]).slice().sort((a,b)=>b.ts.localeCompare(a.ts))[0];
+  const bdrCol = t.status==='completed'?'var(--green)':t.status==='issue'?'var(--rl)':['active','in_transit'].includes(t.status)?'var(--al)':t.status==='accepted'?'var(--pl)':'var(--bd2)';
+  return `<div class="card" style="border-left:4px solid ${bdrCol};margin-bottom:10px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:4px">
+          <span style="font-size:18px">${stageIcon(t.stage)}</span>
+          <span style="font-weight:900;font-size:14px;color:var(--navy)">${g?.flag||''} ${esc(g?.name||'Unknown')}</span>
+          ${sBadge(t.status)}
+          ${t.autoTriggered?`<span class="badge bg-teal" style="font-size:10px">⛓ auto</span>`:''}
+          ${t.priority==='urgent'?`<span class="badge bg-red">🔴 Urgent</span>`:t.priority==='high'?`<span class="badge bg-amber">⚡ High</span>`:''}
+        </div>
+        <div style="font-size:13px;color:var(--t2);font-weight:700">${stageLabel(t.stage)} · ${esc(a?.name||'Unassigned')}</div>
+        ${t.pickupAddr?`<div style="font-size:12px;color:var(--t3);font-weight:600;margin-top:2px">📍 ${esc(t.pickupAddr)} → ${esc(t.dropoffAddr||'—')}</div>`:''}
+        ${t.tripDate?`<div style="font-size:12px;color:var(--t3);font-weight:600;margin-top:2px">📅 ${fmtDate(t.tripDate)}${t.tripTime?' at '+t.tripTime:''}</div>`:''}
+        ${latestTr?`<div style="font-size:12px;margin-top:6px;padding:5px 10px;background:${latestTr.type==='issue'?'var(--rb)':'var(--gb)'};border-radius:var(--rxs);color:${latestTr.type==='issue'?'var(--rl)':'var(--green)'};font-weight:800">${latestTr.type==='issue'?'⚠':'✓'} ${esc(latestTr.text)} <span style="color:var(--t3)">${ago(latestTr.ts)}</span></div>`:''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0">
+        <button class="btn btn-ghost btn-xs" data-task-view="${t.id}">Details</button>
+        ${isMe&&t.status==='assigned'?`<button class="btn btn-navy btn-xs" data-accept="${t.id}">Accept</button>`:''}
+        ${isMe&&t.status==='accepted'?`<button class="btn btn-success btn-xs" data-begin="${t.id}">Begin</button>`:''}
+        ${(isMe||isA)&&['active','in_transit'].includes(t.status)?`<button class="btn btn-info btn-xs" data-transit="${t.id}">Update</button><button class="btn btn-success btn-xs" data-complete="${t.id}">Complete</button>`:''}
+        ${isA&&!['completed','cancelled'].includes(t.status)?`<button class="btn btn-ghost btn-xs" data-modal="editTask" data-id="${t.id}">Edit</button>`:''}
+      </div>
+    </div>
+    ${v?`<div class="v-pill">🚐 ${esc(v.type)} · ${esc(v.reg)} · ${esc(v.driver)} · <a href="tel:${esc(v.phone)}" style="color:var(--bl);font-weight:900">${esc(v.phone)}</a></div>`:''}
+    ${t.pickupAddr&&t.dropoffAddr?`<div style="margin-top:8px"><a class="map-link" href="https://www.google.com/maps/dir/${encodeURIComponent(t.pickupAddr)}/${encodeURIComponent(t.dropoffAddr)}" target="_blank" rel="noopener noreferrer">📍 Navigate ↗</a></div>`:''}
+  </div>`;
+};
+
+// ── MAP ────────────────────────────────────────────────────────────────────────
+const rMap = () => {
+  const active = S.tasks.filter(t=>['active','in_transit','accepted'].includes(t.status));
+  return `
+  <h2 style="margin-bottom:12px">Live Journey Map</h2>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:14px">
+    <div style="background:var(--navy);padding:10px 16px;display:flex;align-items:center;gap:8px">
+      <span>📍</span><span style="font-size:13px;color:#fff;font-weight:800">Old Trafford & Greater Manchester</span>
+    </div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d38035!2d-2.3174!3d53.4631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487bb1c34de0a98b%3A0xb68ea7aded8524b1!2sOld%20Trafford%2C%20Manchester!5e0!3m2!1sen!2suk!4v1" width="100%" height="260" style="border:none;display:block" loading="lazy" title="Old Trafford map"></iframe>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:14px">
+    ${[['MAN Airport → OT','Manchester Airport T1','Old Trafford Stadium, Sir Matt Busby Way, Manchester'],
+       ['Piccadilly → OT','Manchester Piccadilly Station','Old Trafford Stadium, Sir Matt Busby Way, Manchester'],
+       ['Hilton Deansgate → OT','Hilton Deansgate, 303 Deansgate, Manchester','Old Trafford Stadium, Sir Matt Busby Way, Manchester'],
+       ['LHR → Manchester','London Heathrow Airport','Manchester Piccadilly Station'],
+    ].map(([l,o,d])=>`<div class="card-sm"><div style="font-size:12px;font-weight:800;margin-bottom:8px">${l}</div><a class="map-link btn-sm" href="https://www.google.com/maps/dir/${encodeURIComponent(o)}/${encodeURIComponent(d)}" target="_blank" rel="noopener noreferrer">Directions ↗</a></div>`).join('')}
+  </div>
+  ${active.length>0?`<div class="card"><h4 style="margin-bottom:10px">⚡ Active Movements (${active.length})</h4>
+    ${active.map(t=>{const g=S.guests.find(x=>x.id===t.guestId);return`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)">
+      <span style="font-size:20px">${g?.flag||'👤'}</span>
+      <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:900">${esc(g?.name||'—')}</div><div style="font-size:11px;color:var(--t3);font-weight:600">${stageIcon(t.stage)} ${stageLabel(t.stage)}</div></div>
+      ${t.pickupAddr&&t.dropoffAddr?`<a class="map-link btn-xs" href="https://www.google.com/maps/dir/${encodeURIComponent(t.pickupAddr)}/${encodeURIComponent(t.dropoffAddr)}" target="_blank" rel="noopener noreferrer">Track ↗</a>`:sBadge(t.status)}
+    </div>`;}).join('')}
+  </div>`:''}`;
+};
+
+// ── VEHICLES ───────────────────────────────────────────────────────────────────
+const rVehicles = () => `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+    <h2>Fleet Management</h2>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" onclick="rContent()">↻ Refresh</button>
+      <button class="btn btn-primary btn-sm" data-modal="addVehicle">+ Add Vehicle</button>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px">
+    ${S.vehicles.map(v=>`<div class="card">
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
+        <div style="width:44px;height:44px;border-radius:var(--rs);background:var(--s2);border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🚐</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:900;font-size:14px">${esc(v.type)}</div>
+          <div style="font-size:13px;color:var(--gold-d);font-weight:800">${esc(v.reg)}</div>
+          <div style="margin-top:4px"><span class="badge ${v.available?'bg-green':'bg-red'}">${v.available?'✓ Available':'✗ In Use'}</span></div>
+        </div>
+      </div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">👤 ${esc(v.driver)}</div>
+      <a href="tel:${esc(v.phone)}" style="font-size:13px;color:var(--bl);font-weight:900;display:block;margin-bottom:4px">📞 ${esc(v.phone)}</a>
+      <div style="font-size:12px;color:var(--t3);font-weight:600;margin-bottom:10px">Capacity: ${v.capacity} passengers${v.notes?' · '+esc(v.notes):''}</div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-xs" data-toggle-v="${v.id}" style="flex:1">${v.available?'Set In Use':'Set Available'}</button>
+        <button class="btn btn-ghost btn-xs" data-modal="editVehicle" data-id="${v.id}">Edit</button>
+      </div>
+    </div>`).join('')}
+  </div>`;
+
+// ── STAFF ──────────────────────────────────────────────────────────────────────
+const rStaff = () => `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+    <h2>Protocol Staff</h2>
+    <button class="btn btn-primary btn-sm" data-modal="addStaff">+ Add Staff</button>
+  </div>
+  <div class="info-box blue" style="margin-bottom:14px">
+    <span class="info-box-icon">📋</span>
+    <div><strong style="display:block;margin-bottom:2px">PIN Policy</strong>When adding protocol staff: enter their name and phone number. PIN is <strong>automatically set to the last 4 digits of their phone number</strong>. Communicate PIN verbally — never via message. To reset: edit the staff member and update their phone number.</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px">
+    ${S.staff.map(s=>{
+      const myT=S.tasks.filter(t=>t.assigneeId===s.id);
+      const act=myT.filter(t=>['active','in_transit','accepted'].includes(t.status)).length;
+      const done=myT.filter(t=>t.status==='completed').length;
+      return`<div class="card" style="display:flex;align-items:flex-start;gap:12px;${!s.active?'opacity:.5':''}">
+        <div class="avatar" style="width:46px;height:46px;font-size:16px;background:${s.color||'#B8940A'}22;border:2.5px solid ${s.color||'#B8940A'};color:${s.color||'#B8940A'};flex-shrink:0">${inits(s.name)}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:900;font-size:14px">${esc(s.name)}</div>
+          <div style="font-size:12px;color:var(--t2);font-weight:700;margin-top:2px">${esc(s.domain)} · <span class="badge ${s.role==='admin'?'bg-gold':'bg-blue'}">${s.role}</span></div>
+          <div style="font-size:12px;color:var(--t3);font-weight:600;margin-top:2px"><a href="tel:${esc(s.phone)}" style="color:var(--bl)">${esc(s.phone)}</a></div>
+          <div style="font-size:11px;color:var(--t3);font-weight:600;margin-top:2px">PIN: ${s.role==='admin'?s.pin:'****'} &nbsp;·&nbsp; ${act} active · ${done} done · ${myT.length} total</div>
+          <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-xs" data-modal="editStaff" data-id="${s.id}">Edit Profile</button>
+            <button class="btn ${s.active?'btn-danger':'btn-success'} btn-xs" data-toggle-staff="${s.id}">${s.active?'Deactivate':'Activate'}</button>
+          </div>
+        </div>
+      </div>`;}).join('')}
+  </div>`;
+
+// ── AUDIT ──────────────────────────────────────────────────────────────────────
+const rAudit = () => {
+  const df=(document.getElementById('af-f')||{value:''}).value||'';
+  const dt=(document.getElementById('af-t')||{value:''}).value||'';
+  const fg=(document.getElementById('af-g')||{value:'all'}).value||'all';
+  const ft=(document.getElementById('af-tp')||{value:'all'}).value||'all';
+  let e=[...S.audit];
+  if(df) e=e.filter(x=>x.ts>=df);
+  if(dt) e=e.filter(x=>x.ts<=(dt+'T23:59:59'));
+  if(fg!=='all') e=e.filter(x=>x.guestId===fg);
+  if(ft!=='all') e=e.filter(x=>x.type===ft);
+  return `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+    <h2>Audit Trail <span style="font-size:14px;color:var(--t3);font-weight:600">(${e.length})</span></h2>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <button class="btn btn-ghost btn-xs" onclick="dlAudit()">⬇ All</button>
+      <button class="btn btn-ghost btn-xs" onclick="dlToday()">⬇ Today</button>
+      <button class="btn btn-primary btn-xs" onclick="dlFiltered()">⬇ Filtered</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <input type="date" id="af-f" value="${df}" onchange="rContent()" style="flex:1;min-width:120px">
+    <input type="date" id="af-t" value="${dt}" onchange="rContent()" style="flex:1;min-width:120px">
+    <select id="af-g" onchange="rContent()" style="flex:1;min-width:130px">
+      <option value="all">All Guests</option>
+      ${S.guests.map(g=>`<option value="${g.id}" ${fg===g.id?'selected':''}>${g.flag} ${esc(g.name)}</option>`).join('')}
+    </select>
+    <select id="af-tp" onchange="rContent()" style="flex:1;min-width:130px">
+      <option value="all">All Events</option>
+      ${['task_created','task_updated','task_accepted','task_started','auto_triggered','transit_update','issue_raised','issue_resolved','task_completed','guest_added','guest_edited','staff_added','staff_edited','staff_deactivated','vehicle_updated'].map(t=>`<option value="${t}" ${ft===t?'selected':''}>${t.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</option>`).join('')}
+    </select>
+  </div>
+  ${e.length===0?`<div class="empty-state"><div class="es-icon">📁</div><div class="es-title">No audit entries</div><div class="es-desc">No entries match the current filters</div></div>`:''}
+  ${e.map(ev=>{
+    const g=S.guests.find(x=>x.id===ev.guestId);
+    const u=S.staff.find(x=>x.id===ev.userId);
+    const lt={task_created:'info',task_accepted:'info',task_started:'ok',auto_triggered:'system',transit_update:'info',issue_raised:'issue',issue_resolved:'ok',task_completed:'ok',guest_added:'info',guest_edited:'warn',staff_added:'info',staff_edited:'warn',staff_deactivated:'warn',task_updated:'warn'}[ev.type]||'info';
+    return`<div class="audit-entry ${lt}">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px">
+        <strong style="font-size:12px">${(ev.type||'event').replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}${ev.stage?` — ${stageLabel(ev.stage)}`:''}</strong>
+        <span style="font-size:10px;color:var(--t3);font-weight:700">${fmtDT(ev.ts)}</span>
+      </div>
+      ${g?`<div style="font-size:13px;font-weight:800;margin-top:2px">${g.flag} ${esc(g.name)}</div>`:''}
+      <div style="font-size:12px;color:var(--t2);font-weight:700;margin-top:2px">${esc(ev.detail||'')}</div>
+      ${ev.note?`<div style="font-size:12px;font-weight:700;margin-top:4px;padding:5px 8px;background:rgba(0,0,0,.05);border-radius:var(--rxs)">"${esc(ev.note)}"</div>`:''}
+      <div style="font-size:10px;color:var(--t3);font-weight:600;margin-top:3px">${ev.userId==='system'?'⛓ System':esc(u?.name||ev.userId||'')}</div>
+    </div>`;}).join('')}`;
+};
+
+// ── MY JOURNEY ─────────────────────────────────────────────────────────────────
+const rMyJourney = () => {
+  const myT = S.tasks.filter(t=>t.assigneeId===S.user.id);
+  const act = myT.find(t=>['active','in_transit','accepted','assigned'].includes(t.status));
+  const g = act ? S.guests.find(x=>x.id===act.guestId) : null;
+  if(!act||!g) return `<div class="empty-state" style="padding-top:60px"><div class="es-icon">✈</div><div class="es-title">No Active Journey</div><div class="es-desc">You will receive a notification when a task is assigned or auto-triggered. Check "My Tasks" for all assignments.</div></div>`;
+  const si = STAGES.findIndex(s=>s.id===act.stage);
+  const nextS = si<STAGES.length-1?STAGES[si+1]:null;
+  return `
+  <h2 style="margin-bottom:14px">Active Journey</h2>
+  ${act.autoTriggered?`<div class="trigger-banner"><div style="font-size:24px;flex-shrink:0">⛓</div><div><strong>This stage was auto-triggered</strong><p>The previous stage was completed and this began automatically. Please begin your duties now.</p></div></div>`:''}
+  <div class="profile-card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+      <span style="font-size:40px;position:relative;z-index:1">${g.flag}</span>
+      <div style="position:relative;z-index:1">
+        <div style="font-weight:900;font-size:18px;color:#fff">${esc(g.name)}</div>
+        <div style="color:rgba(255,255,255,.7);font-size:13px;font-weight:700">${esc(g.title)}</div>
+        <div style="color:rgba(255,255,255,.5);font-size:12px;font-weight:600;margin-top:2px">✈ ${esc(g.flightNoArr||'—')} · ETA ${fmtDT(g.eta)}</div>
+      </div>
+    </div>
+    <div class="stage-track">
+      ${STAGES.map((s,i)=>{const t=myT.find(x=>x.stage===s.id);const d=t?.status==='completed';const ac=t&&!['completed','pending','cancelled'].includes(t?.status||'');
+        return`<div class="stage-node"><div class="stage-dot ${d?'done':ac?'active':i===si+1?'next':'locked'}">${d?'✓':s.icon}</div><div class="stage-lbl ${d?'done':ac?'active':''}">${s.label}</div></div>${i<STAGES.length-1?`<div class="stage-line ${d?'done':ac?'active':''}"></div>`:''}`}).join('')}
+    </div>
+  </div>
+  <div class="card" style="background:var(--navy);border:2px solid var(--gold);margin-bottom:12px">
+    <div style="font-size:11px;font-weight:900;color:var(--gold);letter-spacing:.08em;margin-bottom:10px">⭐ CURRENT STAGE</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <span style="font-size:28px">${stageIcon(act.stage)}</span>
+      <div>
+        <div style="font-weight:900;font-size:16px;color:#fff">${stageLabel(act.stage)}</div>
+        <div style="color:rgba(255,255,255,.65);font-size:12px;font-weight:600">${STAGES[si]?.desc||''}</div>
+        <div style="margin-top:4px">${sBadge(act.status)}</div>
+      </div>
+    </div>
+    ${act.pickupAddr?`<div style="font-size:12px;color:rgba(255,255,255,.65);font-weight:700;margin-bottom:4px">📍 ${esc(act.pickupAddr)} → ${esc(act.dropoffAddr||'—')}</div>`:''}
+    ${act.tripDate?`<div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:8px">📅 ${fmtDate(act.tripDate)}${act.tripTime?' at '+act.tripTime:''}</div>`:''}
+    ${nextS?`<div style="background:rgba(184,148,10,.15);border:1px solid rgba(184,148,10,.3);border-radius:var(--rxs);padding:8px 12px;font-size:11px;color:var(--gold);font-weight:800">⛓ Completing this stage will auto-trigger: ${nextS.icon} ${nextS.label}</div>`:'<div style="background:rgba(20,144,74,.15);border:1px solid rgba(20,144,74,.3);border-radius:var(--rxs);padding:8px 12px;font-size:11px;color:var(--gl);font-weight:800">🏁 This is the final stage — completing it closes the guest journey</div>'}
+  </div>
+  ${act.pickupAddr&&act.dropoffAddr?`<a class="map-link" style="display:inline-flex;margin-bottom:12px;width:100%;justify-content:center" href="https://www.google.com/maps/dir/${encodeURIComponent(act.pickupAddr)}/${encodeURIComponent(act.dropoffAddr)}" target="_blank" rel="noopener noreferrer">📍 Open Navigation in Google Maps ↗</a>`:''}
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    ${act.status==='assigned'?`<button class="btn btn-navy" style="flex:1" data-accept="${act.id}">✓ Accept Task</button>`:''}
+    ${act.status==='accepted'?`<button class="btn btn-success" style="flex:1" data-begin="${act.id}">▶ Begin Journey</button>`:''}
+    ${['active','in_transit'].includes(act.status)?`
+      <button class="btn btn-info" style="flex:1" data-transit="${act.id}">📝 Log Update</button>
+      <button class="btn btn-success" style="flex:1" data-complete="${act.id}">✅ Complete Stage</button>`:''}
+  </div>`;
+};
+
+// ── MY GUEST ───────────────────────────────────────────────────────────────────
+const rMyGuest = () => {
+  const myT = S.tasks.filter(t=>t.assigneeId===S.user.id);
+  const act = myT.find(t=>!['completed','cancelled'].includes(t.status));
+  const g = act ? S.guests.find(x=>x.id===act.guestId) : null;
+  const v = act ? S.vehicles.find(x=>x.id===act.vehicleId) : null;
+  if(!g) return `<div class="empty-state" style="padding-top:60px"><div class="es-icon">👤</div><div class="es-title">No Guest Assigned</div><div class="es-desc">Your Protocol Detail Lead assignment will appear here once an admin assigns you to a guest.</div></div>`;
+  const dc = myT.filter(t=>t.status==='completed').length;
+  const pct = Math.round(dc/STAGES.length*100);
+  return `
+  <h2 style="margin-bottom:14px">My Assigned Guest</h2>
+  <div class="profile-card">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;position:relative;z-index:1">
+      <div style="width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.15);border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0">${g.flag}</div>
+      <div>
+        <div style="font-weight:900;font-size:18px;color:#fff">${esc(g.name)}</div>
+        <div style="color:rgba(255,255,255,.65);font-size:13px;font-weight:700">${esc(g.title)} · ${esc(g.nationality)}</div>
+        ${g.trackCode?`<div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:600;margin-top:2px">Code: ${esc(g.trackCode)}</div>`:''}
+      </div>
+    </div>
+    <div style="position:relative;z-index:1">
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;color:rgba(255,255,255,.7);margin-bottom:5px"><span>Journey Progress</span><span>${dc}/${STAGES.length}</span></div>
+      <div class="pbar"><div class="pbar-fill" style="width:${pct}%;background:${pct===100?'var(--gl)':'var(--gold)'}"></div></div>
+    </div>
+    <div class="stage-track" style="margin-top:14px">
+      ${STAGES.map((s,i)=>{const t=myT.find(x=>x.stage===s.id);const d=t?.status==='completed';const ac=t&&!['completed','pending','cancelled'].includes(t?.status||'');
+        return`<div class="stage-node"><div class="stage-dot ${d?'done':ac?'active':'locked'}">${d?'✓':s.icon}</div><div class="stage-lbl ${d?'done':ac?'active':''}">${s.label}</div></div>${i<STAGES.length-1?`<div class="stage-line ${d?'done':''}"></div>`:''}`}).join('')}
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:10px">
+    <div class="section-title">Key Information</div>
+    <div class="row2" style="gap:8px;font-size:13px">
+      ${[['✈ Arrival',g.flightNoArr],['🛬 Airport',g.arrivalAirport],['⏰ ETA',fmtDT(g.eta)],['🛫 Dep. Flight',g.flightNoDep],['📅 ETD',fmtDate(g.etd)],['🏨 Hotel',g.hotel],['🔢 Room',g.hotelRoom],['📍 Venue',g.eventLocation]].map(([l,v2])=>`<div style="background:var(--s2);border-radius:var(--rs);padding:9px 11px;border:1px solid var(--bd)"><div style="color:var(--t3);font-size:10px;font-weight:900;margin-bottom:2px">${l}</div><div style="font-weight:800;font-size:12px;word-break:break-word">${esc(v2||'—')}</div></div>`).join('')}
+    </div>
+    ${g.notes?`<div class="info-box amber" style="margin-top:12px"><span class="info-box-icon">⚠</span><span>${esc(g.notes)}</span></div>`:''}
+    ${g.accessible?`<div style="margin-top:10px"><span class="badge bg-amber">♿ Accessible/WAV vehicle required</span></div>`:''}
+  </div>
+  ${v?`<div class="card" style="margin-bottom:10px">
+    <div class="section-title">Assigned Vehicle</div>
+    <div style="font-weight:900;font-size:15px;margin-bottom:4px">🚐 ${esc(v.type)} · ${esc(v.reg)}</div>
+    <div style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:10px">Driver: ${esc(v.driver)}</div>
+    <a href="tel:${esc(v.phone)}" style="display:inline-flex;align-items:center;gap:8px;background:var(--gb);color:var(--green);border:1.5px solid var(--gl);border-radius:var(--rs);padding:10px 18px;font-size:14px;font-weight:900;text-decoration:none;width:100%;justify-content:center">📞 Call Driver: ${esc(v.phone)}</a>
+  </div>`:''}`;
+};
+
+// ── GUEST PORTAL ───────────────────────────────────────────────────────────────
+const rGuestPortal = () => {
+  const g = S.guests.find(x=>x.id===S.user.guestId);
+  if(!g) return `<div class="ge-portal"><div style="color:#fff;text-align:center;padding:40px">Guest not found. <button onclick="S.user=null;render()" class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)">Back to Login</button></div></div>`;
+  const gT = S.tasks.filter(t=>t.guestId===g.id);
+  const done = gT.filter(t=>t.status==='completed').length;
+  const pct = Math.round(done/STAGES.length*100);
+  const cur = gT.find(t=>['active','in_transit','accepted','assigned'].includes(t.status));
+  const csi = cur ? STAGES.findIndex(s=>s.id===cur.stage) : -1;
+  const lat = cur ? [...(cur.transitUpdates||[])].sort((a,b)=>b.ts.localeCompare(a.ts))[0] : null;
+  const asgn = cur ? S.staff.find(x=>x.id===cur.assigneeId) : null;
+  const veh  = cur ? S.vehicles.find(x=>x.id===cur.vehicleId) : null;
+  return `<div class="ge-portal">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:32px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))">🛡️</span>
+      <div><div style="font-size:16px;font-weight:900;color:#fff">NSPPD Protocol</div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Guest Journey Portal · Old Trafford 2026</div></div>
+    </div>
+    <button onclick="S.user=null;render()" class="btn btn-xs" style="background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.25)">Exit</button>
+  </div>
+  <div class="ge-card">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--navy);border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">${g.flag}</div>
+      <div>
+        <h2 style="font-size:20px;color:var(--navy)">${esc(g.name)}</h2>
+        <div style="font-size:14px;color:var(--t2);font-weight:700">${esc(g.title)} · ${esc(g.nationality)}</div>
+        <div style="margin-top:6px">${cur?sBadge(cur.status):`<span class="badge bg-grey">Journey Not Yet Started</span>`}</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:900;margin-bottom:6px">
+      <span style="color:var(--t2)">Journey Progress</span>
+      <span style="color:${pct===100?'var(--green)':'var(--navy)'}">${done} of ${STAGES.length} stages complete</span>
+    </div>
+    <div class="pbar" style="height:10px;margin-bottom:16px"><div class="pbar-fill" style="width:${pct}%;background:${pct===100?'var(--green)':'var(--gold)'}"></div></div>
+    <div class="stage-track">
+      ${STAGES.map((s,i)=>{const t=gT.find(x=>x.stage===s.id);const d=t?.status==='completed';const ac=t&&['active','in_transit','accepted','assigned'].includes(t.status);const nx=i===csi+1;
+        return`<div class="stage-node"><div class="stage-dot ${d?'done':ac?'active':nx?'next':'locked'}">${d?'✓':s.icon}</div><div class="stage-lbl ${d?'done':ac?'active':''}">${s.label}</div></div>${i<STAGES.length-1?`<div class="stage-line ${d?'done':ac?'active':''}"></div>`:''}`}).join('')}
+    </div>
+  </div>
+  ${cur?`<div class="ge-card">
+    <div class="section-title">⭐ Current Stage</div>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+      <div class="ge-icon active"><span style="font-size:20px">${stageIcon(cur.stage)}</span></div>
+      <div>
+        <div style="font-weight:900;font-size:16px;color:var(--navy)">${stageLabel(cur.stage)}</div>
+        <div style="font-size:12px;color:var(--t2);font-weight:700;margin-top:2px">${STAGES.find(s=>s.id===cur.stage)?.desc||''}</div>
+        <div style="margin-top:6px">${sBadge(cur.status)}</div>
+      </div>
+    </div>
+    ${asgn?`<div class="info-box blue" style="margin-bottom:10px"><span class="info-box-icon">👤</span><div><strong style="display:block;margin-bottom:2px">Your Protocol Detail Lead</strong>${esc(asgn.name)}${asgn.phone?` · <a href="tel:${esc(asgn.phone)}" style="color:var(--bl);font-weight:900">${esc(asgn.phone)}</a>`:''}</div></div>`:''}
+    ${veh?`<div class="info-box" style="background:var(--s2);border:1.5px solid var(--bd);margin-bottom:10px"><span class="info-box-icon">🚐</span><div><strong style="display:block;margin-bottom:2px">${esc(veh.type)} · ${esc(veh.reg)}</strong>Driver: ${esc(veh.driver)} · <a href="tel:${esc(veh.phone)}" style="color:var(--bl);font-weight:900">${esc(veh.phone)}</a></div></div>`:''}
+    ${cur.pickupAddr?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:var(--s2);border-radius:var(--rs);padding:10px 12px;border:1.5px solid var(--bd)"><div style="font-size:10px;font-weight:900;color:var(--t3);margin-bottom:3px">FROM</div><div style="font-weight:900;font-size:13px">${esc(cur.pickupAddr)}</div></div>
+      <div style="background:var(--s2);border-radius:var(--rs);padding:10px 12px;border:1.5px solid var(--bd)"><div style="font-size:10px;font-weight:900;color:var(--t3);margin-bottom:3px">TO</div><div style="font-weight:900;font-size:13px">${esc(cur.dropoffAddr||'—')}</div></div>
+    </div>
+    <a class="map-link" style="width:100%;justify-content:center;margin-bottom:8px" href="https://www.google.com/maps/dir/${encodeURIComponent(cur.pickupAddr)}/${encodeURIComponent(cur.dropoffAddr||'')}" target="_blank" rel="noopener noreferrer">📍 View Route on Google Maps ↗</a>`:''}
+    ${cur.tripDate?`<div style="font-size:13px;color:var(--t2);font-weight:800;margin-top:6px">📅 ${fmtDate(cur.tripDate)}${cur.tripTime?' at '+cur.tripTime:''}</div>`:''}
+    ${lat?`<div style="margin-top:14px">
+      <div class="section-title">Latest Update from Your Protocol Detail</div>
+      <div style="background:${lat.type==='issue'?'var(--rb)':'var(--gb)'};border:2px solid ${lat.type==='issue'?'var(--rl)':'var(--gl)'};border-radius:var(--rs);padding:12px 14px">
+        <div style="font-weight:900;font-size:14px;color:${lat.type==='issue'?'var(--rl)':'var(--green)'};">${lat.type==='issue'?'⚠ Issue Reported':'✓ '+lat.type.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</div>
+        <div style="font-size:13px;font-weight:700;margin-top:4px">${esc(lat.text)}</div>
+        ${lat.location?`<div style="font-size:12px;color:var(--t2);font-weight:700;margin-top:4px">📍 ${esc(lat.location)}</div>`:''}
+        <div style="font-size:11px;color:var(--t3);font-weight:600;margin-top:4px">${fmtDT(lat.ts)}</div>
+      </div>
+    </div>`:''}
+  </div>`:`<div class="ge-card" style="text-align:center;padding:28px 20px">
+    <div style="font-size:48px;margin-bottom:12px">⏳</div>
+    <h3 style="color:var(--navy);margin-bottom:8px">Awaiting Journey Start</h3>
+    <p style="font-size:13px;color:var(--t2);font-weight:600;line-height:1.6">Your Protocol Detail Lead will meet you on arrival. Journey stage updates will appear here automatically as each stage begins.</p>
+  </div>`}
+  <div class="ge-card">
+    <div class="section-title">Full Journey Overview</div>
+    ${STAGES.map((s,i)=>{const t=gT.find(x=>x.stage===s.id);const d=t?.status==='completed';const ac=t&&['active','in_transit','accepted','assigned'].includes(t.status);const nx=i===csi+1;const as=t?S.staff.find(x=>x.id===t.assigneeId):null;
+      return`<div class="ge-stage-item ${d?'done':ac?'active':'locked'}">
+        <div class="ge-icon ${d?'done':ac?'active':'locked'}"><span>${d?'✓':s.icon}</span></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:900;font-size:14px;color:${d?'var(--green)':ac?'var(--navy)':'var(--t3)'}">${s.label}</div>
+          <div style="font-size:12px;color:var(--t3);font-weight:600;margin-top:1px">${s.desc}</div>
+          ${as?`<div style="font-size:12px;color:var(--t2);font-weight:800;margin-top:4px">👤 ${esc(as.name)}${as.phone?` · <a href="tel:${esc(as.phone)}" style="color:var(--bl);font-weight:900">${esc(as.phone)}</a>`:''}</div>`:''}
+          ${d&&t.completedAt?`<div style="font-size:11px;color:var(--gl);font-weight:800;margin-top:2px">✓ Completed ${fmtDT(t.completedAt)}</div>`:''}
+          ${ac&&t.autoTriggered?`<div style="font-size:10px;color:var(--gold-d);font-weight:800;margin-top:1px">⛓ Auto-started from previous stage</div>`:''}
+        </div>
+        <div>${d?sBadge('completed'):ac?sBadge('active'):nx?`<span class="badge bg-navy">Next</span>`:`<span class="badge bg-grey">Pending</span>`}</div>
+      </div>`;}).join('')}
+  </div>
+  <div class="ge-card">
+    <div class="section-title">Key Information</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      ${[['✈ Arrival',g.flightNoArr],['🛬 Airport',g.arrivalAirport],['🛫 Dep. Flight',g.flightNoDep],['📅 Departs',g.etd?fmtDate(g.etd):'—'],['🏨 Hotel',g.hotel],['🔢 Room',g.hotelRoom],['📍 Venue',g.eventLocation||'Old Trafford Stadium'],['👤 Detail Lead',g.detailLead||'—']].map(([l,v2])=>`<div style="background:var(--s2);border-radius:var(--rs);padding:9px 11px;border:1.5px solid var(--bd)"><div style="color:var(--t3);font-size:10px;font-weight:900;margin-bottom:2px">${l}</div><div style="font-weight:900;font-size:12px;word-break:break-word">${esc(v2||'—')}</div></div>`).join('')}
+    </div>
+    ${g.notes?`<div class="info-box amber" style="margin-top:12px"><span class="info-box-icon">⚠</span><span>${esc(g.notes)}</span></div>`:''}
+  </div>
+  <p style="text-align:center;color:rgba(255,255,255,.3);font-size:11px;font-weight:700;padding:10px 0;padding-bottom:max(10px,env(safe-area-inset-bottom))">NSPPD Protocol Department · Old Trafford 2026 · Code: ${esc(g.trackCode||'—')}</p>
+</div>`;
+};
+
+// ── CHAT ───────────────────────────────────────────────────────────────────────
+const rChat = () => {
+  const ch = S.chatChannel || 'general';
+  const msgs = S.messages.filter(m=>m.channel===ch||ch==='all').slice(-100);
+  const channels = ['all','general','airport','venue','transport','vip','command'];
+  return `
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1.5px solid var(--bd);flex-shrink:0">
+    <strong style="color:var(--navy);font-size:14px">💬 Team Chat</strong>
+    <button onclick="S.chatOpen=false;render()" class="close-btn" aria-label="Close chat">✕</button>
+  </div>
+  <div style="padding:8px 10px;border-bottom:1.5px solid var(--bd);flex-shrink:0">
+    <div style="display:flex;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px">
+      ${channels.map(c=>`<button onclick="S.chatChannel='${c}';rChatPanel()" class="btn btn-xs ${ch===c?'btn-navy':'btn-ghost'}" style="flex-shrink:0">${c==='all'?'All':'#'+c}</button>`).join('')}
+    </div>
+  </div>
+  <div id="chat-msgs" style="flex:1;overflow-y:auto;padding:12px 14px;-webkit-overflow-scrolling:touch">
+    ${msgs.length===0?`<div style="color:var(--t3);text-align:center;padding:24px;font-size:13px;font-weight:700">No messages in #${ch}</div>`:''}
+    ${msgs.map(m=>{const me=m.senderId===S.user.id;const snd=S.staff.find(s=>s.id===m.senderId);return`<div class="chat-msg ${me?'me':''}">
+      ${!me?`<div class="avatar" style="width:32px;height:32px;font-size:12px;background:${snd?.color||'#1460B8'}22;border:2px solid ${snd?.color||'#1460B8'};color:${snd?.color||'#1460B8'}">${inits(m.senderName)}</div>`:''}
+      <div style="max-width:82%">
+        ${!me?`<div style="font-size:10px;color:var(--t3);font-weight:700;margin-bottom:3px">${esc(m.senderName)} · ${ago(m.ts)}</div>`:''}
+        <div class="chat-bubble">${esc(m.text)}</div>
+        ${me?`<div style="font-size:10px;color:var(--t3);text-align:right;margin-top:3px;font-weight:600">${ago(m.ts)}</div>`:''}
+      </div>
+    </div>`;}).join('')}
+  </div>
+  <div style="padding:10px 12px;border-top:1.5px solid var(--bd);flex-shrink:0;display:flex;gap:8px;padding-bottom:max(10px,env(safe-area-inset-bottom))">
+    <input id="chat-in" placeholder="Message #${ch}... (Enter to send)" style="flex:1;font-size:13px" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}">
+    <button class="btn btn-navy btn-sm" onclick="sendMsg()">Send</button>
+  </div>`;
+};
+
+const sendMsg = () => {
+  const inp = document.getElementById('chat-in');
+  if(!inp||!inp.value.trim()) return;
+  S.messages.push({id:gid(),senderId:S.user.id,senderName:S.user.name,text:inp.value.trim(),channel:S.chatChannel==='all'?'general':S.chatChannel,ts:now()});
+  commit('msgs'); inp.value=''; rChatPanel();
+};
+
+// ── NOTIF PANEL ────────────────────────────────────────────────────────────────
+const rNotifPanel = () => {
+  const notifs = S.notifs.filter(n=>n.userId===S.user.id).slice(0,40);
+  return `<div id="notif-panel">
+    <div style="padding:12px 16px;border-bottom:1.5px solid var(--bd);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--s1);z-index:1">
+      <strong style="color:var(--navy);font-size:14px">Notifications</strong>
+      <div style="display:flex;gap:8px">
+        <button onclick="markAllRead()" class="btn btn-ghost btn-xs">Mark all read</button>
+        <button onclick="S.notifOpen=false;render()" class="close-btn btn-xs" style="padding:4px 8px">✕</button>
+      </div>
+    </div>
+    ${notifs.length===0?`<div style="padding:32px;text-align:center;color:var(--t3);font-size:13px;font-weight:700">No notifications</div>`:''}
+    ${notifs.map(n=>`<div class="notif-item ${n.read?'':'unread'}" onclick="markRead('${n.id}');S.notifOpen=false;${n.taskId?`S.view='${S.user.role==='admin'?'tasks':'my_tasks'}';`:``}render()">
+      <div class="notif-title">${esc(n.title)}</div>
+      <div class="notif-body">${esc(n.body)}</div>
+      <div class="notif-time">${fmtDT(n.ts)}</div>
+    </div>`).join('')}
+  </div>`;
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MODALS
+// ══════════════════════════════════════════════════════════════════════════════
+const rModal = () => {
+  const {modal,mData} = S;
+  let title='', body='';
+
+  if(modal==='addTask'||modal==='editTask') {
+    const t = modal==='editTask' ? S.tasks.find(x=>x.id===mData) : null;
+    title = t ? 'Edit Task' : 'Assign New Task';
+    body = `<form class="fg" onsubmit="saveTask(event,'${modal}','${mData||''}')">
+      <div class="row2">
+        <div><label class="required">VIP Guest</label><select name="guestId" required>
+          <option value="">Select guest...</option>
+          ${S.guests.map(g=>`<option value="${g.id}" ${t?.guestId===g.id?'selected':''}>${g.flag} ${esc(g.name)}</option>`).join('')}
+        </select></div>
+        <div><label class="required">Journey Stage</label><select name="stage" required>
+          ${STAGES.map(s=>`<option value="${s.id}" ${t?.stage===s.id?'selected':''}>${s.icon} ${s.label}</option>`).join('')}
+        </select></div>
+        <div><label class="required">Assign Protocol Staff</label><select name="assigneeId" required>
+          <option value="">Select staff...</option>
+          ${S.staff.filter(s=>s.role==='protocol'&&s.active).map(s=>`<option value="${s.id}" ${t?.assigneeId===s.id?'selected':''}>${esc(s.name)} (${esc(s.domain)})</option>`).join('')}
+        </select></div>
+        <div><label>Assign Vehicle</label><select name="vehicleId">
+          <option value="">No vehicle</option>
+          ${S.vehicles.map(v=>`<option value="${v.id}" ${t?.vehicleId===v.id?'selected':''}>${esc(v.type)} — ${esc(v.reg)} (${esc(v.driver)})</option>`).join('')}
+        </select></div>
+        <div><label>Trip Date</label><input type="date" name="tripDate" value="${t?.tripDate||''}"></div>
+        <div><label>Trip Time</label><input type="time" name="tripTime" value="${t?.tripTime||''}"></div>
+        <div><label>Scheduled ETA</label><input type="datetime-local" name="eta" value="${t?.eta?t.eta.slice(0,16):''}"></div>
+        <div><label>Priority</label><select name="priority">
+          <option value="normal" ${(t?.priority||'normal')==='normal'?'selected':''}>Normal</option>
+          <option value="high" ${t?.priority==='high'?'selected':''}>⚡ High</option>
+          <option value="urgent" ${t?.priority==='urgent'?'selected':''}>🔴 Urgent</option>
+        </select></div>
+      </div>
+      <div><label class="required">Pickup Location / Address</label><input name="pickupAddr" placeholder="e.g. Manchester Airport Terminal 1, Manchester M90 1QX" value="${esc(t?.pickupAddr||'')}" required></div>
+      <div><label class="required">Drop-off Location / Address</label><input name="dropoffAddr" placeholder="e.g. Hilton Deansgate, 303 Deansgate, Manchester M3 4LQ" value="${esc(t?.dropoffAddr||'')}" required></div>
+      <div><label>Event / Venue Address</label><input name="venueAddr" placeholder="Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA" value="${esc(t?.venueAddr||'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA')}"></div>
+      <div><label>Notes / Special Instructions</label><textarea name="notes" placeholder="Accessibility needs, dietary, timing, security briefing...">${esc(t?.notes||'')}</textarea></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 ${t?'Update':'Create'} Task</button>
+      </div>
+    </form>`;
+
+  } else if(modal==='addGuest'||modal==='editGuest') {
+    const g = modal==='editGuest' ? S.guests.find(x=>x.id===mData) : null;
+    title = g ? 'Edit VIP Guest' : 'Add VIP Guest';
+    const fmap = {'Nigeria':'🇳🇬','Ghana':'🇬🇭','South Africa':'🇿🇦','Canada':'🇨🇦','USA':'🇺🇸','UK':'🇬🇧','Kenya':'🇰🇪','Zimbabwe':'🇿🇼','Australia':'🇦🇺'};
+    body = `<form class="fg" onsubmit="saveGuest(event,'${modal}','${mData||''}')">
+      <div class="row2">
+        <div><label class="required">Full Name</label><input name="name" required placeholder="Dr. John Smith" value="${esc(g?.name||'')}"></div>
+        <div><label>Title / Role</label><input name="title" placeholder="Pastor, Bishop, Apostle..." value="${esc(g?.title||'')}"></div>
+        <div><label>Origin Country</label><select name="origin" onchange="this.form.flag.value=({'Nigeria':'🇳🇬','Ghana':'🇬🇭','South Africa':'🇿🇦','Canada':'🇨🇦','USA':'🇺🇸','UK':'🇬🇧','Kenya':'🇰🇪','Zimbabwe':'🇿🇼','Australia':'🇦🇺'}[this.value]||'🌍')">
+          ${[...Object.keys(fmap),'Other'].map(c=>`<option value="${c}" ${(g?.origin||'Nigeria')===c?'selected':''}>${(fmap[c]||'🌍')} ${c}</option>`).join('')}
+        </select></div>
+        <div><label>Flag Emoji</label><input name="flag" placeholder="🌍" value="${esc(g?.flag||'🌍')}" style="font-size:20px"></div>
+        <div><label>Nationality</label><input name="nationality" placeholder="Nigerian" value="${esc(g?.nationality||'')}"></div>
+        <div><label>Guest Tracking Code</label><input name="trackCode" placeholder="e.g. ADY001" value="${esc(g?.trackCode||'')}" oninput="this.value=this.value.toUpperCase()"></div>
+      </div>
+      <div style="background:var(--s2);border-radius:var(--r);padding:14px;border:1.5px solid var(--bd)">
+        <div class="section-title" style="margin-bottom:10px">✈ Arrival Details</div>
+        <div class="row3">
+          <div><label class="required">Arrival Airport</label><input name="arrivalAirport" required placeholder="London Heathrow (LHR)" value="${esc(g?.arrivalAirport||'London Heathrow (LHR)')}"></div>
+          <div><label>Arrival Flight No.</label><input name="flightNoArr" placeholder="BA0076" value="${esc(g?.flightNoArr||'')}"></div>
+          <div><label>ETA (Date & Time)</label><input type="datetime-local" name="eta" value="${g?.eta||''}"></div>
+        </div>
+      </div>
+      <div style="background:var(--s2);border-radius:var(--r);padding:14px;border:1.5px solid var(--bd)">
+        <div class="section-title" style="margin-bottom:10px">🛫 Departure Details</div>
+        <div class="row3">
+          <div><label class="required">Departure Airport</label><input name="departureAirport" required placeholder="London Heathrow (LHR)" value="${esc(g?.departureAirport||'London Heathrow (LHR)')}"></div>
+          <div><label>Departure Flight No.</label><input name="flightNoDep" placeholder="BA0077" value="${esc(g?.flightNoDep||'')}"></div>
+          <div><label>ETD (Date & Time)</label><input type="datetime-local" name="etd" value="${g?.etd||''}"></div>
+        </div>
+      </div>
+      <div style="background:var(--s2);border-radius:var(--r);padding:14px;border:1.5px solid var(--bd)">
+        <div class="section-title" style="margin-bottom:10px">🏨 Accommodation & Venue</div>
+        <div class="row2">
+          <div><label class="required">Hotel Name & Address</label><input name="hotel" required placeholder="Hilton Deansgate, 303 Deansgate, Manchester M3 4LQ" value="${esc(g?.hotel||'')}"></div>
+          <div><label>Room Number</label><input name="hotelRoom" placeholder="702" value="${esc(g?.hotelRoom||'')}"></div>
+          <div style="grid-column:span 2"><label>Event / Venue Address</label><input name="eventLocation" placeholder="Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA" value="${esc(g?.eventLocation||'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA')}"></div>
+        </div>
+      </div>
+      <div class="row2">
+        <div><label>Assigned Detail Lead</label><input name="detailLead" placeholder="V-012 Thomas A." value="${esc(g?.detailLead||'')}"></div>
+        <div style="display:flex;align-items:center;gap:10px;padding-top:20px"><input type="checkbox" name="accessible" id="acc-cb" ${g?.accessible?'checked':''}><label for="acc-cb" style="margin:0;text-transform:none;font-size:13px;cursor:pointer">♿ Accessible / WAV vehicle required</label></div>
+      </div>
+      <div><label>Special Notes / Requirements</label><textarea name="notes" placeholder="Dietary requirements, medical needs, security considerations, VIP preferences...">${esc(g?.notes||'')}</textarea></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 ${g?'Save Changes':'Add Guest'}</button>
+      </div>
+    </form>`;
+
+  } else if(modal==='taskDetail') {
+    const t = S.tasks.find(x=>x.id===mData);
+    if(!t){closeModal();return'';}
+    const g = S.guests.find(x=>x.id===t.guestId);
+    const v = S.vehicles.find(x=>x.id===t.vehicleId);
+    const a = S.staff.find(s=>s.id===t.assigneeId);
+    const lg = S.audit.filter(e=>e.taskId===t.id).sort((a,b)=>b.ts.localeCompare(a.ts));
+    const isMe = t.assigneeId===S.user.id;
+    const isA = S.user.role==='admin';
+    title = `Task: ${g?.name||'Unknown'}`;
+    body = `
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">${sBadge(t.status)}<span class="badge bg-navy">${stageIcon(t.stage)} ${stageLabel(t.stage)}</span>${t.autoTriggered?`<span class="badge bg-teal">⛓ Auto-triggered</span>`:''}</div>
+      <div class="row2" style="gap:8px;margin-bottom:16px;font-size:13px">
+        ${[['Guest',`${g?.flag||''} ${esc(g?.name||'—')}`],['Stage',stageLabel(t.stage)],['Assigned To',esc(a?.name||'—')],['Date',t.tripDate?fmtDate(t.tripDate):'—'],['Time',t.tripTime||'—'],['ETA',t.eta?fmtDT(t.eta):'—'],['Pickup',esc(t.pickupAddr||'—')],['Drop-off',esc(t.dropoffAddr||'—')],['Venue',esc(t.venueAddr||g?.eventLocation||'—')],['Vehicle',v?`${esc(v.type)} · ${esc(v.reg)}`:'—'],['Driver',v?esc(v.driver):'—'],['Driver Tel',v?`<a href="tel:${esc(v.phone)}" style="color:var(--bl);font-weight:900">${esc(v.phone)}</a>`:'—']].map(([l,val])=>`<div style="background:var(--s2);border-radius:var(--rs);padding:9px 11px;border:1px solid var(--bd)"><div style="color:var(--t3);font-size:10px;font-weight:900;margin-bottom:2px">${l}</div><div style="font-weight:800;font-size:12px;word-break:break-word">${val}</div></div>`).join('')}
+      </div>
+      ${t.pickupAddr&&t.dropoffAddr?`<a class="map-link" style="display:flex;justify-content:center;margin-bottom:14px" href="https://www.google.com/maps/dir/${encodeURIComponent(t.pickupAddr)}/${encodeURIComponent(t.dropoffAddr)}" target="_blank" rel="noopener noreferrer">📍 Open Navigation ↗</a>`:''}
+      ${t.notes?`<div class="info-box amber" style="margin-bottom:14px"><span class="info-box-icon">📝</span><span>${esc(t.notes)}</span></div>`:''}
+      ${(t.transitUpdates&&t.transitUpdates.length>0)?`<div style="margin-bottom:14px">
+        <div class="section-title">📡 Transit Updates (${t.transitUpdates.length})</div>
+        <div style="display:flex;flex-direction:column;gap:6px;max-height:240px;overflow-y:auto">
+          ${[...t.transitUpdates].sort((a,b)=>b.ts.localeCompare(a.ts)).map(u=>`<div class="transit-item ${u.type}">
+            <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+              <strong style="font-size:12px;color:${u.type==='issue'?'var(--rl)':u.type==='ok'?'var(--green)':'var(--t1)'}">${u.type==='issue'?'⚠ ISSUE':'✓ '+u.type.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</strong>
+              <span style="font-size:10px;color:var(--t3);font-weight:700">${fmtDT(u.ts)}</span>
+            </div>
+            <div style="font-size:13px;font-weight:700">${esc(u.text)}</div>
+            ${u.location?`<div style="font-size:12px;color:var(--t2);font-weight:600;margin-top:3px">📍 ${esc(u.location)}</div>`:''}
+            ${u.action?`<div style="font-size:12px;color:var(--t2);font-weight:600;margin-top:2px">🔧 ${esc(u.action)}</div>`:''}
+            <div style="font-size:11px;color:var(--t3);font-weight:600;margin-top:3px">by ${esc(u.byName)}</div>
+          </div>`).join('')}
+        </div>
+      </div>`:''}
+      <div style="margin-bottom:14px">
+        <div class="section-title">📁 Audit Log (${lg.length})</div>
+        ${lg.length===0?`<div style="font-size:13px;color:var(--t3);font-weight:700">No entries yet</div>`:''}
+        ${lg.slice(0,10).map(e=>`<div class="audit-entry ${e.logType||'info'}" style="margin-bottom:5px">
+          <div style="font-size:11px;font-weight:900">${(e.type||'event').replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</div>
+          <div style="font-size:12px;color:var(--t2);font-weight:700;margin-top:1px">${esc(e.detail||'')}</div>
+          <div style="font-size:10px;color:var(--t3);font-weight:600;margin-top:2px">${fmtDT(e.ts)} · ${e.userId==='system'?'⛓ System':esc(S.staff.find(s=>s.id===e.userId)?.name||e.userId||'')}</div>
+        </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${isA?`<button class="btn btn-ghost btn-sm" data-modal="editTask" data-id="${t.id}">✏ Edit</button>`:''}
+        ${isMe&&t.status==='assigned'?`<button class="btn btn-navy btn-sm" data-accept="${t.id}">✓ Accept</button>`:''}
+        ${isMe&&t.status==='accepted'?`<button class="btn btn-success btn-sm" data-begin="${t.id}">▶ Begin</button>`:''}
+        ${(isMe||isA)&&['active','in_transit'].includes(t.status)?`<button class="btn btn-info btn-sm" data-transit="${t.id}">📝 Update</button><button class="btn btn-success btn-sm" data-complete="${t.id}">✅ Complete</button>`:''}
+        <button class="btn btn-ghost btn-sm" onclick="dlTaskAudit('${t.id}')">⬇ Audit CSV</button>
+      </div>`;
+
+  } else if(modal==='transitUpdate') {
+    const t = S.tasks.find(x=>x.id===mData);
+    const g = t ? S.guests.find(x=>x.id===t.guestId) : null;
+    title = 'Log Transit Update';
+    body = `<form class="fg" onsubmit="saveTransit(event,'${mData}')">
+      <div style="background:var(--s2);border-radius:var(--rs);padding:12px 14px">
+        <div style="font-weight:900;font-size:14px">${g?.flag||''} ${esc(g?.name||'Guest')}</div>
+        <div style="font-size:13px;color:var(--t2);font-weight:700;margin-top:2px">${stageLabel(t?.stage||'')} · ${sBadge(t?.status||'')}</div>
+      </div>
+      <div><label class="required">Update Type</label><select name="updateType" required onchange="document.getElementById('iss-note').style.display=this.value==='issue'?'flex':'none'">
+        <option value="">Select type...</option>
+        <option value="ok">✓ All good — progress update</option>
+        <option value="delay">⏰ Running late — delay</option>
+        <option value="issue">⚠ Issue raised — problem occurred</option>
+        <option value="location">📍 Location update</option>
+        <option value="eta_change">🕐 ETA has changed</option>
+        <option value="resolved">✅ Issue resolved</option>
+      </select></div>
+      <div><label>Current Location / Position</label><input name="location" placeholder="e.g. M60 Junction 7, approaching Trafford Park"></div>
+      <div><label class="required">Update Detail</label><textarea name="text" required placeholder="Describe the situation clearly and in full. This entry is permanent and forms part of the audit record."></textarea></div>
+      <div id="iss-note" class="info-box red" style="display:none"><span class="info-box-icon">🚨</span><div>This will immediately flag the task as ISSUE and send alerts to all Admin staff. Describe the problem in full — including what happened, where, and any safety implications.</div></div>
+      <div class="row2">
+        <div><label>Revised ETA (if changed)</label><input type="datetime-local" name="newEta"></div>
+        <div><label>Action Being Taken</label><input name="action" placeholder="e.g. Taking alternate route via A57"></div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">📡 Log Update</button>
+      </div>
+    </form>`;
+
+  } else if(modal==='guestDetail') {
+    const g = S.guests.find(x=>x.id===mData);
+    if(!g){closeModal();return'';}
+    const gT = S.tasks.filter(t=>t.guestId===g.id);
+    const dc = gT.filter(t=>t.status==='completed').length;
+    const pct = Math.round(dc/STAGES.length*100);
+    title = `${g.flag} ${g.name}`;
+    body = `
+      <div class="profile-card" style="margin-bottom:14px">
+        <div style="display:flex;gap:14px;align-items:center;margin-bottom:14px;position:relative;z-index:1">
+          <div style="font-size:44px">${g.flag}</div>
+          <div>
+            <div style="font-weight:900;font-size:18px;color:#fff">${esc(g.name)}</div>
+            <div style="color:rgba(255,255,255,.65);font-size:13px;font-weight:700">${esc(g.title)} · ${esc(g.nationality)}</div>
+            ${g.trackCode?`<div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:2px">Code: ${esc(g.trackCode)}</div>`:''}
+          </div>
+        </div>
+        <div style="position:relative;z-index:1">
+          <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:rgba(255,255,255,.7);margin-bottom:5px"><span>Journey Progress</span><span>${dc}/${STAGES.length} stages</span></div>
+          <div class="pbar"><div class="pbar-fill" style="width:${pct}%;background:${pct===100?'var(--gl)':'var(--gold)'}"></div></div>
+        </div>
+        <div class="stage-track" style="margin-top:14px">
+          ${STAGES.map((s,i)=>{const t=gT.find(x=>x.stage===s.id);const d=t?.status==='completed';const ac=t&&!['completed','pending','cancelled'].includes(t?.status||'');
+            return`<div class="stage-node"><div class="stage-dot ${d?'done':ac?'active':'locked'}">${d?'✓':s.icon}</div><div class="stage-lbl ${d?'done':ac?'active':''}">${s.label}</div></div>${i<STAGES.length-1?`<div class="stage-line ${d?'done':''}"></div>`:''}`}).join('')}
+        </div>
+      </div>
+      <div class="row2" style="gap:8px;font-size:13px;margin-bottom:14px">
+        ${[['✈ Arrival',g.flightNoArr],['🛬 Airport',g.arrivalAirport],['⏰ ETA',fmtDT(g.eta)],['🛫 Dep. Flight',g.flightNoDep],['🛬 Dep. Airport',g.departureAirport],['📅 ETD',fmtDate(g.etd)],['🏨 Hotel',g.hotel],['🔢 Room',g.hotelRoom],['📍 Venue',g.eventLocation],['👤 Detail Lead',g.detailLead]].map(([l,v2])=>`<div style="background:var(--s2);border-radius:var(--rs);padding:9px 11px;border:1px solid var(--bd)"><div style="color:var(--t3);font-size:10px;font-weight:900;margin-bottom:2px">${l}</div><div style="font-weight:800;font-size:12px;word-break:break-word">${esc(v2||'—')}</div></div>`).join('')}
+      </div>
+      ${g.notes?`<div class="info-box amber" style="margin-bottom:14px"><span class="info-box-icon">⚠</span><span>${esc(g.notes)}</span></div>`:''}
+      ${g.accessible?`<div style="margin-bottom:14px"><span class="badge bg-amber">♿ Accessible / WAV vehicle required</span></div>`:''}
+      <div class="section-title">Journey Tasks</div>
+      ${gT.length===0?`<p style="font-size:13px;color:var(--t3);font-weight:700;margin-bottom:14px">No tasks assigned yet.</p>`:''}
+      ${gT.sort((a,b)=>STAGES.findIndex(s=>s.id===a.stage)-STAGES.findIndex(s=>s.id===b.stage)).map(t=>{
+        const a=S.staff.find(s=>s.id===t.assigneeId);
+        return`<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap">
+          <span style="font-weight:800;font-size:13px;min-width:120px">${stageIcon(t.stage)} ${stageLabel(t.stage)}</span>
+          <span style="font-size:12px;color:var(--t2);font-weight:700;flex:1">${esc(a?.name||'Unassigned')}</span>
+          ${sBadge(t.status)}${t.autoTriggered?`<span class="badge bg-teal" style="font-size:10px">⛓</span>`:''}
+          <button class="btn btn-ghost btn-xs" data-task-view="${t.id}">View</button>
+        </div>`;}).join('')}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
+        <button class="btn btn-ghost btn-sm" data-modal="editGuest" data-id="${g.id}">✏ Edit Guest</button>
+        <button class="btn btn-primary btn-sm" data-modal="addTask">+ Assign Task</button>
+        <button class="btn btn-ghost btn-sm" onclick="dlGuestAudit('${g.id}')">⬇ Guest Audit</button>
+      </div>`;
+
+  } else if(modal==='addVehicle'||modal==='editVehicle') {
+    const v = modal==='editVehicle' ? S.vehicles.find(x=>x.id===mData) : null;
+    title = v ? 'Edit Vehicle' : 'Add Vehicle';
+    body = `<form class="fg" onsubmit="saveVehicle(event,'${modal}','${mData||''}')">
+      <div class="row2">
+        <div><label class="required">Vehicle Type</label><select name="type" required>${VEHICLE_TYPES.map(t=>`<option value="${t}" ${v?.type===t?'selected':''}>${t}</option>`).join('')}</select></div>
+        <div><label class="required">Registration</label><input name="reg" required placeholder="MK26 ABC" value="${esc(v?.reg||'')}"></div>
+        <div><label class="required">Driver Name</label><input name="driver" required placeholder="Thomas Hamill" value="${esc(v?.driver||'')}"></div>
+        <div><label class="required">Driver Phone</label><input name="phone" required placeholder="+447700800001" value="${esc(v?.phone||'')}"></div>
+        <div><label>Passenger Capacity</label><input type="number" name="capacity" min="1" max="60" value="${v?.capacity||8}"></div>
+      </div>
+      <div><label>Notes</label><input name="notes" placeholder="e.g. Full wheelchair ramp, child seat available" value="${esc(v?.notes||'')}"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Save Vehicle</button>
+      </div>
+    </form>`;
+
+  } else if(modal==='addStaff'||modal==='editStaff') {
+    const s = modal==='editStaff' ? S.staff.find(x=>x.id===mData) : null;
+    title = s ? 'Edit Protocol Staff Member' : 'Add Protocol Staff Member';
+    body = `<form class="fg" onsubmit="${s?'updateStaff':'saveStaff'}(event,'${mData||''}')">
+      <div class="info-box blue"><span class="info-box-icon">📋</span><div><strong style="display:block;margin-bottom:3px">PIN Policy</strong>PIN is automatically set to the <strong>last 4 digits of the phone number</strong>. To update a PIN, edit the phone number. Communicate all PINs verbally — never in written messages.</div></div>
+      <div class="row2">
+        <div><label class="required">Full Name</label><input name="name" required placeholder="Thomas Adeyemi" value="${esc(s?.name||'')}"></div>
+        <div><label class="required">Role</label><select name="role">
+          <option value="protocol" ${(s?.role||'protocol')==='protocol'?'selected':''}>Protocol Staff</option>
+          <option value="admin" ${s?.role==='admin'?'selected':''}>Admin</option>
+        </select></div>
+        <div><label class="required">Domain / Team</label><select name="domain" required>
+          ${DOMAINS.map(d=>`<option value="${d}" ${(s?.domain||'Airport Team')===d?'selected':''}>${d}</option>`).join('')}
+        </select></div>
+        <div><label class="required">Phone Number (PIN = last 4 digits)</label><input name="phone" required placeholder="+447700900099" value="${esc(s?.phone||'')}" oninput="const p=this.value.replace(/\\D/g,'').slice(-4);document.getElementById('pin-prev').textContent=p.length===4?p:'—';document.getElementById('pin-prev').style.color=p.length===4?'var(--green)':'var(--t3)'"></div>
+        <div><label>Accent Colour</label><input type="color" name="color" value="${s?.color||'#1460B8'}"></div>
+        <div style="display:flex;flex-direction:column;justify-content:center;background:var(--s2);border-radius:var(--rs);padding:10px 14px;border:1.5px solid var(--bd)">
+          <div style="font-size:10px;font-weight:900;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Auto-Generated PIN</div>
+          <div id="pin-prev" style="font-size:28px;font-weight:900;letter-spacing:.2em;color:${s?.pin?'var(--green)':'var(--t3)'}">${s?.pin?s.pin:'—'}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 ${s?'Save Changes':'Add Staff Member'}</button>
+      </div>
+    </form>`;
+  }
+
+  return `<div class="overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-drag"></div>
+      <div class="modal-hd"><h3>${esc(title)}</h3><button class="close-btn" onclick="closeModal()" aria-label="Close">✕</button></div>
+      <div class="modal-bd">${body}</div>
+    </div>
+  </div>`;
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ACTION HANDLERS
+// ══════════════════════════════════════════════════════════════════════════════
+
+const closeModal = () => { S.modal=null; S.mData=null; render(); };
+
+const saveTask = (e,mode,id) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const ex = id ? S.tasks.find(t=>t.id===id) : null;
+  const ts = now();
+  const task = {
+    id: ex?.id||gid(), guestId:fd.get('guestId'), stage:fd.get('stage'),
+    assigneeId:fd.get('assigneeId'), vehicleId:fd.get('vehicleId')||null,
+    tripDate:fd.get('tripDate')||null, tripTime:fd.get('tripTime')||null,
+    eta:fd.get('eta')||null, pickupAddr:fd.get('pickupAddr'), dropoffAddr:fd.get('dropoffAddr'),
+    venueAddr:fd.get('venueAddr')||'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',
+    notes:fd.get('notes'), priority:fd.get('priority')||'normal',
+    status:ex?.status||'assigned', createdAt:ex?.createdAt||ts,
+    transitUpdates:ex?.transitUpdates||[], autoTriggered:ex?.autoTriggered||false,
+  };
+  const g = S.guests.find(x=>x.id===task.guestId);
+  const a = S.staff.find(s=>s.id===task.assigneeId);
+  if(ex) {
+    S.tasks = S.tasks.map(t=>t.id===id?task:t);
+    addAudit({type:'task_updated',taskId:task.id,guestId:task.guestId,stage:task.stage,userId:S.user.id,detail:`Task updated — ${g?.name||'—'} / ${stageLabel(task.stage)}`,logType:'warn'});
+    toast('Task updated ✓','success');
+  } else {
+    S.tasks.push(task);
+    addAudit({type:'task_created',taskId:task.id,guestId:task.guestId,stage:task.stage,userId:S.user.id,detail:`Assigned to ${a?.name||'—'} for ${g?.name||'—'} — ${stageLabel(task.stage)}`,logType:'info'});
+    addNotif(task.assigneeId,'📋 New task assigned!',`${stageIcon(task.stage)} ${stageLabel(task.stage)} for ${g?.name||''}. Pickup: ${task.pickupAddr||'—'}`,task.id);
+    toast('Task created · Staff notified ✓','success');
+  }
+  commit('tasks'); closeModal();
+};
+
+const saveGuest = (e,mode,id) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const ts = now();
+  const ex = id ? S.guests.find(g=>g.id===id) : null;
+  const g = {
+    id:ex?.id||gid(), name:fd.get('name'), title:fd.get('title'), origin:fd.get('origin'),
+    flag:fd.get('flag')||'🌍', nationality:fd.get('nationality'),
+    arrivalAirport:fd.get('arrivalAirport'), flightNoArr:fd.get('flightNoArr'), eta:fd.get('eta')||null,
+    departureAirport:fd.get('departureAirport'), flightNoDep:fd.get('flightNoDep'), etd:fd.get('etd')||null,
+    hotel:fd.get('hotel'), hotelRoom:fd.get('hotelRoom'),
+    eventLocation:fd.get('eventLocation')||'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',
+    detailLead:fd.get('detailLead'),
+    accessible:!!document.getElementById('acc-cb')?.checked,
+    notes:fd.get('notes'), trackCode:(fd.get('trackCode')||'').toUpperCase(),
+    createdAt:ex?.createdAt||ts,
+  };
+  if(ex){S.guests=S.guests.map(x=>x.id===id?g:x);addAudit({type:'guest_edited',guestId:g.id,userId:S.user.id,detail:`Profile updated: ${g.name}`,logType:'warn'});toast('Guest updated ✓','success');}
+  else{S.guests.push(g);addAudit({type:'guest_added',guestId:g.id,userId:S.user.id,detail:`VIP added: ${g.name} (${g.nationality})${g.trackCode?' · Code: '+g.trackCode:''}`,logType:'info'});toast('Guest added ✓','success');}
+  commit('guests'); closeModal();
+};
+
+const saveTransit = (e,tid) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const task = S.tasks.find(t=>t.id===tid);
+  if(!task) return;
+  const ut = fd.get('updateType');
+  const u = {id:gid(),ts:now(),type:ut,text:fd.get('text'),location:fd.get('location')||null,action:fd.get('action')||null,byId:S.user.id,byName:S.user.name,newEta:fd.get('newEta')||null};
+  if(!task.transitUpdates) task.transitUpdates=[];
+  task.transitUpdates.push(u);
+  let ns=task.status;
+  if(ut==='issue') ns='issue';
+  else if(ut==='resolved') ns='active';
+  else if(['ok','location','delay','eta_change'].includes(ut)) ns='in_transit';
+  if(u.newEta) task.eta=u.newEta;
+  task.status=ns;
+  S.tasks=S.tasks.map(t=>t.id===tid?task:t);
+  const g=S.guests.find(x=>x.id===task.guestId);
+  const lt=ut==='issue'?'issue':ut==='resolved'?'ok':'info';
+  addAudit({type:ut==='issue'?'issue_raised':ut==='resolved'?'issue_resolved':'transit_update',taskId:tid,guestId:task.guestId,stage:task.stage,userId:S.user.id,detail:`${ut==='issue'?'⚠ ISSUE':'Update'}: ${fd.get('text')}${u.location?' @ '+u.location:''}`,note:fd.get('text'),logType:lt});
+  if(ut==='issue'){
+    S.staff.filter(s=>s.role==='admin').forEach(ad=>addNotif(ad.id,'🚨 Issue Raised',`${g?.name||''} — ${stageLabel(task.stage)}: ${fd.get('text')}`,tid));
+    toast('⚠ Issue logged · Admins alerted','error',4000);
+  } else toast('Transit update logged ✓','success');
+  commit('tasks'); closeModal();
+};
+
+const saveVehicle = (e,mode,id) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const v = {id:id||gid(),type:fd.get('type'),reg:fd.get('reg'),driver:fd.get('driver'),phone:fd.get('phone'),capacity:parseInt(fd.get('capacity'))||8,notes:fd.get('notes'),available:true};
+  if(id){S.vehicles=S.vehicles.map(x=>x.id===id?{...x,...v}:x);addAudit({type:'vehicle_updated',userId:S.user.id,detail:`Vehicle updated: ${v.reg}`,logType:'warn'});toast('Vehicle updated ✓','success');}
+  else{S.vehicles.push(v);toast('Vehicle added ✓','success');}
+  commit('vehicles'); closeModal();
+};
+
+const saveStaff = (e,id) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const phone = fd.get('phone');
+  const pin = last4(phone);
+  if(!pin||pin.length<4){toast('Phone number must have at least 4 digits to generate a PIN','error');return;}
+  const s = {id:gid(),name:fd.get('name'),role:fd.get('role'),pin,domain:fd.get('domain'),phone,color:fd.get('color'),active:true,joinedAt:now()};
+  S.staff.push(s);
+  commit('staff');
+  addAudit({type:'staff_added',userId:S.user.id,detail:`Staff onboarded: ${s.name} (${s.domain}) · PIN set from phone`,logType:'info'});
+  toast(`Staff added ✓  PIN for ${s.name}: ${pin}`,'success',4000);
+  closeModal();
+};
+
+const updateStaff = (e,id) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const phone = fd.get('phone');
+  const pin = last4(phone);
+  if(!pin||pin.length<4){toast('Phone number must have at least 4 digits','error');return;}
+  S.staff = S.staff.map(s=>s.id===id?{...s,name:fd.get('name'),role:fd.get('role'),domain:fd.get('domain'),phone,pin,color:fd.get('color')}:s);
+  commit('staff');
+  addAudit({type:'staff_edited',userId:S.user.id,detail:`Staff profile updated: ${fd.get('name')}`,logType:'warn'});
+  toast('Staff member updated ✓','success');
+  closeModal();
+};
+
+const acceptTask = id => {
+  S.tasks = S.tasks.map(t=>{
+    if(t.id!==id) return t;
+    const g=S.guests.find(x=>x.id===t.guestId);
+    addAudit({type:'task_accepted',taskId:id,guestId:t.guestId,stage:t.stage,userId:S.user.id,detail:`Accepted by ${S.user.name}`,logType:'ok'});
+    S.staff.filter(s=>s.role==='admin').forEach(ad=>addNotif(ad.id,'✓ Task Accepted',`${S.user.name} accepted: ${g?.name||''} — ${stageLabel(t.stage)}`,id));
+    return {...t,status:'accepted',acceptedAt:now()};
+  });
+  commit('tasks'); toast('Task accepted ✓','success'); render();
+};
+
+const beginTask = id => {
+  S.tasks = S.tasks.map(t=>{
+    if(t.id!==id) return t;
+    addAudit({type:'task_started',taskId:id,guestId:t.guestId,stage:t.stage,userId:S.user.id,detail:`Journey begun by ${S.user.name}`,logType:'ok'});
+    return {...t,status:'active',startedAt:now()};
+  });
+  commit('tasks'); toast('Journey started ✓','success'); render();
+};
+
+const completeTask = id => {
+  const task = S.tasks.find(t=>t.id===id);
+  if(!task) return;
+  const g = S.guests.find(x=>x.id===task.guestId);
+  task.status='completed'; task.completedAt=now();
+  S.tasks = S.tasks.map(t=>t.id===id?task:t);
+  addAudit({type:'task_completed',taskId:id,guestId:task.guestId,stage:task.stage,userId:S.user.id,detail:`"${stageLabel(task.stage)}" completed for ${g?.name||''}`,logType:'ok'});
+  const triggered = triggerNextStage(task);
+  if(triggered){
+    const ns=STAGES.find(s=>s.id===triggered.stage);
+    const asn=S.staff.find(s=>s.id===triggered.assigneeId);
+    S.trigBanner={gName:g?.name||'Guest',prev:task.stage,next:triggered.stage,aName:asn?.name||'—'};
+    toast(`Stage complete ⛓ ${ns?.label||'Next'} auto-started`,'success',4000);
+  } else {
+    const allDone=STAGES.every(s=>S.tasks.find(t=>t.guestId===task.guestId&&t.stage===s.id&&t.status==='completed'));
+    if(allDone){
+      S.staff.filter(s=>s.role==='admin').forEach(ad=>addNotif(ad.id,'🎉 Journey Complete!',`Full 6-stage cycle complete for ${g?.name||''}. Guest returned to departure airport.`,id));
+      toast('🎉 Journey fully complete for '+g?.name+'!','success',5000);
+    } else toast('Stage completed ✓','success');
+  }
+  commit('tasks'); commit('notifs'); render();
+};
+
+const markRead = id => { S.notifs=S.notifs.map(n=>n.id===id?{...n,read:true}:n); commit('notifs'); };
+const markAllRead = () => { S.notifs=S.notifs.map(n=>({...n,read:true})); commit('notifs'); render(); };
+
+// ── CSV EXPORT ──────────────────────────────────────────────────────────────
+const toCSV = entries => {
+  const hdr = ['Timestamp','Type','Guest','Stage','Detail','Note','By','TaskId'];
+  const rows = entries.map(e=>{
+    const g=S.guests.find(x=>x.id===e.guestId);
+    const u=S.staff.find(x=>x.id===e.userId);
+    return[fmtDT(e.ts),e.type||'',g?.name||'',stageLabel(e.stage)||'',e.detail||'',e.note||'',e.userId==='system'?'System':u?.name||'',e.taskId||''].map(v=>`"${String(v).replace(/"/g,'""')}"`);
+  });
+  return [hdr,...rows].map(r=>r.join(',')).join('\n');
+};
+const dlCSV = (c,fn) => { const b=new Blob([c],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=fn; a.click(); URL.revokeObjectURL(a.href); toast('Downloading: '+fn); };
+const dlAudit = () => dlCSV(toCSV(S.audit),`nsppd_audit_all_${new Date().toISOString().slice(0,10)}.csv`);
+const dlToday = () => { const t=new Date().toISOString().slice(0,10); dlCSV(toCSV(S.audit.filter(e=>e.ts.startsWith(t))),`nsppd_audit_today_${t}.csv`); };
+const dlFiltered = () => {
+  let e=[...S.audit];
+  const df=document.getElementById('af-f')?.value||''; const dt=document.getElementById('af-t')?.value||''; const fg=document.getElementById('af-g')?.value||'all';
+  if(df)e=e.filter(x=>x.ts>=df); if(dt)e=e.filter(x=>x.ts<=(dt+'T23:59:59')); if(fg!=='all')e=e.filter(x=>x.guestId===fg);
+  dlCSV(toCSV(e),`nsppd_audit_filtered_${new Date().toISOString().slice(0,10)}.csv`);
+};
+const dlTaskAudit = tid => dlCSV(toCSV(S.audit.filter(e=>e.taskId===tid)),`nsppd_task_${tid}_audit.csv`);
+const dlGuestAudit = gid2 => { const g=S.guests.find(x=>x.id===gid2); dlCSV(toCSV(S.audit.filter(e=>e.guestId===gid2)),`nsppd_guest_${(g?.name||gid2).replace(/\s+/g,'_')}_audit.csv`); };
+
+// ── BIND ───────────────────────────────────────────────────────────────────────
+const bindAll = () => {
+  // nav
+  document.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click',()=>{S.view=b.dataset.nav;S.trigBanner=null;render();}));
+  document.getElementById('logout-btn')?.addEventListener('click',()=>{S.user=null;S.chatOpen=false;S.trigBanner=null;render();});
+  document.getElementById('chat-btn')?.addEventListener('click',()=>{S.chatOpen=!S.chatOpen;render();});
+  document.getElementById('notif-btn')?.addEventListener('click',()=>{S.notifOpen=!S.notifOpen;if(S.notifOpen)markAllRead();render();});
+  // modals
+  document.querySelectorAll('[data-modal]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();S.modal=b.dataset.modal;S.mData=b.dataset.id||null;render();}));
+  document.querySelectorAll('[data-guest-view]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();S.modal='guestDetail';S.mData=b.dataset.guestView;render();}));
+  document.querySelectorAll('[data-task-view]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();S.modal='taskDetail';S.mData=b.dataset.taskView;render();}));
+  // task actions
+  document.querySelectorAll('[data-accept]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();acceptTask(b.dataset.accept);}));
+  document.querySelectorAll('[data-begin]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();beginTask(b.dataset.begin);}));
+  document.querySelectorAll('[data-transit]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();S.modal='transitUpdate';S.mData=b.dataset.transit;render();}));
+  document.querySelectorAll('[data-complete]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();if(confirm('Mark this stage as complete? The next stage will start automatically if a task exists for it.'))completeTask(b.dataset.complete);}));
+  // vehicles
+  document.querySelectorAll('[data-toggle-v]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.toggleV;S.vehicles=S.vehicles.map(v=>v.id===id?{...v,available:!v.available}:v);commit('vehicles');rContent();}));
+  // staff
+  document.querySelectorAll('[data-toggle-staff]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.toggleStaff;S.staff=S.staff.map(s=>s.id===id?{...s,active:!s.active}:s);commit('staff');addAudit({type:'staff_deactivated',userId:S.user.id,detail:`Staff ${S.staff.find(s=>s.id===id)?.active?'activated':'deactivated'}: ${S.staff.find(s=>s.id===id)?.name}`,logType:'warn'});rContent();}));
+  // chat scroll
+  setTimeout(()=>{const m=document.getElementById('chat-msgs');if(m)m.scrollTop=m.scrollHeight;},50);
+  // close notif on outside click
+  if(S.notifOpen){
+    setTimeout(()=>document.addEventListener('click',function h(ev){const np=document.getElementById('notif-panel');const nb=document.getElementById('notif-btn');if(np&&!np.contains(ev.target)&&!nb?.contains(ev.target)){S.notifOpen=false;render();document.removeEventListener('click',h);}},{capture:true}),100);
+  }
+};
+
+const rContent = () => { const c=document.getElementById('content'); if(c){c.innerHTML=(S.trigBanner?rTrigBanner():'')+rView();}  bindAll(); };
+const rChatPanel = () => { const cp=document.getElementById('chat-panel'); if(cp){cp.innerHTML=rChat();bindAll();}  setTimeout(()=>{const m=document.getElementById('chat-msgs');if(m)m.scrollTop=m.scrollHeight;},50); };
+
+// ── BOOT ───────────────────────────────────────────────────────────────────────
+render();
+
+</script>
+</body>
+</html>
