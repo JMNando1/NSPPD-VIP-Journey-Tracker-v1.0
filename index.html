@@ -7,7 +7,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NSPPD Protocol">
-<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;NSPPD Protocol VIP Tracker&quot;,&quot;short_name&quot;:&quot;Protocol&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#1B2A4A&quot;,&quot;theme_color&quot;:&quot;#1B2A4A&quot;}">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>NSPPD Protocol VIP Tracker 2026</title>
 <style>
 
@@ -1766,6 +1768,11 @@ const rChatPanel = () => { const cp=document.getElementById('chat-panel'); if(cp
 
 // ── BOOT ───────────────────────────────────────────────────────────────────────
 render();
+
+// ── PWA: offline support + installability ──────────────────────────────────────
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  try { navigator.serviceWorker.register('./sw.js'); } catch(e) {}
+}
 
 // ── CLOUD SYNC BOOT ────────────────────────────────────────────────────────────
 const cloudApply = (sk, v) => {
