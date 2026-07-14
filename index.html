@@ -284,6 +284,17 @@ const STAGES = [
   {id:'hotel_airport',   icon:'🛫', label:'Hotel → Airport',     desc:'Departure transfer and farewell at check-in'},
 ];
 
+const UK_AIRPORTS = [
+  'London Heathrow (LHR) — London','London Gatwick (LGW) — London','London Stansted (STN) — Essex',
+  'London Luton (LTN) — Bedfordshire','London City (LCY) — London','London Southend (SEN) — Essex',
+  'Manchester (MAN) — Manchester','Birmingham (BHX) — Birmingham','Edinburgh (EDI) — Edinburgh',
+  'Glasgow (GLA) — Glasgow','Bristol (BRS) — Bristol','Newcastle (NCL) — Newcastle upon Tyne',
+  'Leeds Bradford (LBA) — Leeds','Liverpool John Lennon (LPL) — Liverpool','East Midlands (EMA) — Castle Donington',
+  'Cardiff (CWL) — Cardiff','Belfast International (BFS) — Belfast','Belfast City (BHD) — Belfast','Aberdeen (ABZ) — Aberdeen'
+];
+const airportOpts = sel => UK_AIRPORTS.map(ap=>`<option value="${ap}" ${sel===ap?'selected':''}>${ap}</option>`).join('')
+  + (sel && !UK_AIRPORTS.includes(sel) ? `<option value="${esc(sel)}" selected>${esc(sel)}</option>` : '');
+
 const STATUS_MAP = {
   pending:     ['bg-grey',   'Pending',    ''],
   assigned:    ['bg-blue',   'Assigned',   ''],
@@ -335,6 +346,8 @@ const S = {
   guests:   load('p26v2_guests',   SEED_GUESTS),
   vehicles: load('p26v2_vehicles', SEED_VEHICLES),
   tasks:    load('p26v2_tasks',    []),
+  locations: load('p26v2_locations', []),
+  settings:  load('p26v2_settings', {eventShort:'Old Trafford 2026', eventSub:'Old Trafford · 25–26 September 2026'}),
   messages: load('p26v2_msgs',     []),
   audit:    load('p26v2_audit',    []),
   notifs:   load('p26v2_notifs',   []),
@@ -353,8 +366,21 @@ const FIREBASE_CONFIG = {
   projectId: "nsppd-vip-tracker",
   storageBucket: "nsppd-vip-tracker.firebasestorage.app",
   messagingSenderId: "580996577680",
-  appId: "1:580996577680:web:aca18f94a22f548c7e5b15",
-  measurementId: "G-DD2Z7LTSS0"
+  appId: "1:580996577680:web:aca18f94a22f548c7e5b15"
+}; /* e.g.
+{
+  apiKey: "AIza....",
+  authDomain: "nsppd-tracker.firebaseapp.com",
+  databaseURL: "https://nsppd-tracker-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "nsppd-tracker",
+  appId: "1:1234567890:web:abcdef"
+} */
+let DB = null;
+const SKEY = k => k==='msgs' ? 'messages' : k;   // storage key → state key
+const commit = k => {
+  const v = S[SKEY(k)];
+  store('p26v2_'+k, v);
+  if(DB) DB.ref('p26/'+k).set(v||[]).catch(()=>{});
 };
 
 // ── AUDIT + NOTIF ──────────────────────────────────────────────────────────────
@@ -439,7 +465,7 @@ const rLogin = () => `
     <div style="text-align:center;margin-bottom:28px;color:#fff">
       <div style="font-size:56px;margin-bottom:10px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))">🛡️</div>
       <h1 style="color:#fff;font-size:22px;letter-spacing:-.3px">NSPPD Protocol</h1>
-      <p style="color:rgba(255,255,255,.65);font-size:13px;font-weight:700;margin-top:4px">VIP Journey Tracker · Old Trafford 2026</p>
+      <p style="color:rgba(255,255,255,.65);font-size:13px;font-weight:700;margin-top:4px">VIP Journey Tracker · ${esc(S.settings.eventShort)}</p>
     </div>
     <div style="background:var(--s1);border-radius:var(--r2);padding:24px;box-shadow:var(--shadow3)">
       <div class="fg">
@@ -457,7 +483,7 @@ const rLogin = () => `
         Access is issued by the Protocol Department.<br>Contact your Team Lead or Detail Lead if you need credentials.
       </div>
     </div>
-    <p style="text-align:center;color:rgba(255,255,255,.35);font-size:11px;margin-top:16px;font-weight:600">NSPPD Protocol Department · Old Trafford · Sep 2026</p>
+    <p style="text-align:center;color:rgba(255,255,255,.35);font-size:11px;margin-top:16px;font-weight:600">NSPPD Protocol Department · ${esc(S.settings.eventShort)}</p>
   </div>
 </div>`;
 
@@ -496,7 +522,7 @@ const rHeader = (nav, unN, unM) => `
     <span style="font-size:24px;line-height:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3))">🛡️</span>
     <div>
       <div style="font-size:13px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.2px">NSPPD Protocol</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700">Old Trafford 2026</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700">${esc(S.settings.eventShort)}${S.user?.role==='admin'?` <span data-modal="eventSettings" style="cursor:pointer;opacity:.8;text-decoration:underline">✎ edit</span>`:''}</div>
     </div>
   </div>
   <nav id="desktop-nav">
@@ -565,7 +591,7 @@ const rDashboard = () => {
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
     <div>
       <h2>Operations Dashboard</h2>
-      <p style="font-size:12px;color:var(--t3);font-weight:700;margin-top:2px">Old Trafford · 25–26 September 2026</p>
+      <p style="font-size:12px;color:var(--t3);font-weight:700;margin-top:2px">${esc(S.settings.eventSub)}</p>
     </div>
     <button class="btn btn-primary btn-sm" data-modal="addTask">+ Assign Task</button>
   </div>
@@ -656,6 +682,7 @@ const rGuests = () => {
         <div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0">
           <button class="btn btn-navy btn-sm" data-guest-view="${g.id}">View</button>
           <button class="btn btn-ghost btn-sm" data-modal="editGuest" data-id="${g.id}">Edit</button>
+          <button class="btn btn-ghost btn-sm" data-del-guest="${g.id}" style="color:var(--rl);border-color:var(--rl)">🗑 Delete</button>
         </div>
       </div>
     </div>`;}).join('')}
@@ -739,8 +766,23 @@ const rTaskCard = t => {
 // ── MAP ────────────────────────────────────────────────────────────────────────
 const rMap = () => {
   const active = S.tasks.filter(t=>['active','in_transit','accepted'].includes(t.status));
+  const isA = S.user.role==='admin';
+  const LOC_ICON = {hotel:'🏨',venue:'🏟',airport:'✈',other:'📌'};
   return `
   <h2 style="margin-bottom:12px">Live Journey Map</h2>
+  ${isA?`<div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+      <h4>📌 Saved Locations <span style="font-size:12px;color:var(--t3);font-weight:600">(${S.locations.length})</span></h4>
+      <button class="btn btn-primary btn-sm" data-modal="addLocation">+ Add Location</button>
+    </div>
+    ${S.locations.length?S.locations.map(L=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)">
+      <span style="font-size:18px">${LOC_ICON[L.type]||'📌'}</span>
+      <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:900">${esc(L.name)} <span class="badge bg-grey" style="margin-left:6px">${esc(L.type)}</span></div>
+      <div style="font-size:11px;color:var(--t3);font-weight:600">${esc(L.address)}</div></div>
+      <a class="map-link btn-xs" href="https://www.google.com/maps/search/${encodeURIComponent(L.name+' '+L.address)}" target="_blank" rel="noopener noreferrer">Map ↗</a>
+      <button class="btn btn-ghost btn-xs" data-del-loc="${L.id}" style="color:var(--rl)">×</button>
+    </div>`).join(''):`<div style="font-size:12px;color:var(--t3);font-weight:600;text-align:center;padding:10px">No saved locations yet — add your hotels and the event venue so they appear as dropdown options in guest and task forms.</div>`}
+  </div>`:''}
   <div class="card" style="padding:0;overflow:hidden;margin-bottom:14px">
     <div style="background:var(--navy);padding:10px 16px;display:flex;align-items:center;gap:8px">
       <span>📍</span><span style="font-size:13px;color:#fff;font-weight:800">Old Trafford & Greater Manchester</span>
@@ -981,7 +1023,7 @@ const rGuestPortal = () => {
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
     <div style="display:flex;align-items:center;gap:12px">
       <span style="font-size:32px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))">🛡️</span>
-      <div><div style="font-size:16px;font-weight:900;color:#fff">NSPPD Protocol</div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Guest Journey Portal · Old Trafford 2026</div></div>
+      <div><div style="font-size:16px;font-weight:900;color:#fff">NSPPD Protocol</div><div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Guest Journey Portal · ${esc(S.settings.eventShort)}</div></div>
     </div>
     <button onclick="S.user=null;render()" class="btn btn-xs" style="background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.25)">Exit</button>
   </div>
@@ -1058,7 +1100,7 @@ const rGuestPortal = () => {
     </div>
     ${g.notes?`<div class="info-box amber" style="margin-top:12px"><span class="info-box-icon">⚠</span><span>${esc(g.notes)}</span></div>`:''}
   </div>
-  <p style="text-align:center;color:rgba(255,255,255,.3);font-size:11px;font-weight:700;padding:10px 0;padding-bottom:max(10px,env(safe-area-inset-bottom))">NSPPD Protocol Department · Old Trafford 2026 · Code: ${esc(g.trackCode||'—')}</p>
+  <p style="text-align:center;color:rgba(255,255,255,.3);font-size:11px;font-weight:700;padding:10px 0;padding-bottom:max(10px,env(safe-area-inset-bottom))">NSPPD Protocol Department · ${esc(S.settings.eventShort)} · Code: ${esc(g.trackCode||'—')}</p>
 </div>`;
 };
 
@@ -1133,11 +1175,11 @@ const rModal = () => {
     title = t ? 'Edit Task' : 'Assign New Task';
     body = `<form class="fg" onsubmit="saveTask(event,'${modal}','${mData||''}')">
       <div class="row2">
-        <div><label class="required">VIP Guest</label><select name="guestId" required>
+        <div><label class="required">VIP Guest</label><select name="guestId" required onchange="taskAutofill(this.form)">
           <option value="">Select guest...</option>
           ${S.guests.map(g=>`<option value="${g.id}" ${t?.guestId===g.id?'selected':''}>${g.flag} ${esc(g.name)}</option>`).join('')}
         </select></div>
-        <div><label class="required">Journey Stage</label><select name="stage" required>
+        <div><label class="required">Journey Stage</label><select name="stage" required onchange="taskAutofill(this.form)">
           ${STAGES.map(s=>`<option value="${s.id}" ${t?.stage===s.id?'selected':''}>${s.icon} ${s.label}</option>`).join('')}
         </select></div>
         <div><label class="required">Assign Protocol Staff</label><select name="assigneeId" required>
@@ -1157,9 +1199,12 @@ const rModal = () => {
           <option value="urgent" ${t?.priority==='urgent'?'selected':''}>🔴 Urgent</option>
         </select></div>
       </div>
-      <div><label class="required">Pickup Location / Address</label><input name="pickupAddr" placeholder="e.g. Manchester Airport Terminal 1, Manchester M90 1QX" value="${esc(t?.pickupAddr||'')}" required></div>
-      <div><label class="required">Drop-off Location / Address</label><input name="dropoffAddr" placeholder="e.g. Hilton Deansgate, 303 Deansgate, Manchester M3 4LQ" value="${esc(t?.dropoffAddr||'')}" required></div>
-      <div><label>Event / Venue Address</label><input name="venueAddr" placeholder="Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA" value="${esc(t?.venueAddr||'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA')}"></div>
+      <div style="font-size:11px;font-weight:800;color:var(--tl);background:var(--ts);border:1.5px solid var(--tl);border-radius:var(--rs);padding:8px 12px">⚡ Selecting a guest and stage auto-fills the trip details below from their profile — review before saving.</div>
+      <div><label class="required">Pickup Location / Address</label><input name="pickupAddr" list="loc-dl" placeholder="Auto-fills from guest profile" value="${esc(t?.pickupAddr||'')}" required></div>
+      <div><label class="required">Drop-off Location / Address</label><input name="dropoffAddr" list="loc-dl" placeholder="Auto-fills from guest profile" value="${esc(t?.dropoffAddr||'')}" required></div>
+      <datalist id="loc-dl">${[...S.locations.map(L=>L.name+', '+L.address),...UK_AIRPORTS].map(x=>`<option value="${esc(x)}">`).join('')}</datalist>
+      <div><label>Event / Venue Address</label><input name="venueAddr" list="venues-dl2" placeholder="Auto-fills from guest profile or saved venues" value="${esc(t?.venueAddr||'')}">
+        <datalist id="venues-dl2">${S.locations.filter(L=>L.type==='venue').map(L=>`<option value="${esc(L.name+', '+L.address)}">`).join('')}</datalist></div>
       <div><label>Notes / Special Instructions</label><textarea name="notes" placeholder="Accessibility needs, dietary, timing, security briefing...">${esc(t?.notes||'')}</textarea></div>
       <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
         <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
@@ -1175,17 +1220,16 @@ const rModal = () => {
       <div class="row2">
         <div><label class="required">Full Name</label><input name="name" required placeholder="Dr. John Smith" value="${esc(g?.name||'')}"></div>
         <div><label>Title / Role</label><input name="title" placeholder="Pastor, Bishop, Apostle..." value="${esc(g?.title||'')}"></div>
-        <div><label>Origin Country</label><select name="origin" onchange="this.form.flag.value=({'Nigeria':'🇳🇬','Ghana':'🇬🇭','South Africa':'🇿🇦','Canada':'🇨🇦','USA':'🇺🇸','UK':'🇬🇧','Kenya':'🇰🇪','Zimbabwe':'🇿🇼','Australia':'🇦🇺'}[this.value]||'🌍')">
+        <div><label>Origin Country</label><select name="origin">
           ${[...Object.keys(fmap),'Other'].map(c=>`<option value="${c}" ${(g?.origin||'Nigeria')===c?'selected':''}>${(fmap[c]||'🌍')} ${c}</option>`).join('')}
         </select></div>
-        <div><label>Flag Emoji</label><input name="flag" placeholder="🌍" value="${esc(g?.flag||'🌍')}" style="font-size:20px"></div>
         <div><label>Nationality</label><input name="nationality" placeholder="Nigerian" value="${esc(g?.nationality||'')}"></div>
-        <div><label>Guest Tracking Code</label><input name="trackCode" placeholder="e.g. ADY001" value="${esc(g?.trackCode||'')}" oninput="this.value=this.value.toUpperCase()"></div>
+        <div style="display:flex;align-items:center;gap:8px;padding-top:20px;font-size:12px;font-weight:800;color:var(--t3)">🔖 Tracking code: ${g?.trackCode?`<span class="badge bg-gold">${esc(g.trackCode)}</span>`:'<span class="badge bg-grey">auto-generated on save</span>'}</div>
       </div>
       <div style="background:var(--s2);border-radius:var(--r);padding:14px;border:1.5px solid var(--bd)">
         <div class="section-title" style="margin-bottom:10px">✈ Arrival Details</div>
         <div class="row3">
-          <div><label class="required">Arrival Airport</label><input name="arrivalAirport" required placeholder="London Heathrow (LHR)" value="${esc(g?.arrivalAirport||'London Heathrow (LHR)')}"></div>
+          <div><label class="required">Arrival Airport</label><select name="arrivalAirport" required>${airportOpts(g?.arrivalAirport||'London Heathrow (LHR) — London')}</select></div>
           <div><label>Arrival Flight No.</label><input name="flightNoArr" placeholder="BA0076" value="${esc(g?.flightNoArr||'')}"></div>
           <div><label>ETA (Date & Time)</label><input type="datetime-local" name="eta" value="${g?.eta||''}"></div>
         </div>
@@ -1193,7 +1237,7 @@ const rModal = () => {
       <div style="background:var(--s2);border-radius:var(--r);padding:14px;border:1.5px solid var(--bd)">
         <div class="section-title" style="margin-bottom:10px">🛫 Departure Details</div>
         <div class="row3">
-          <div><label class="required">Departure Airport</label><input name="departureAirport" required placeholder="London Heathrow (LHR)" value="${esc(g?.departureAirport||'London Heathrow (LHR)')}"></div>
+          <div><label class="required">Departure Airport</label><select name="departureAirport" required>${airportOpts(g?.departureAirport||'London Heathrow (LHR) — London')}</select></div>
           <div><label>Departure Flight No.</label><input name="flightNoDep" placeholder="BA0077" value="${esc(g?.flightNoDep||'')}"></div>
           <div><label>ETD (Date & Time)</label><input type="datetime-local" name="etd" value="${g?.etd||''}"></div>
         </div>
@@ -1201,19 +1245,49 @@ const rModal = () => {
       <div style="background:var(--s2);border-radius:var(--r);padding:14px;border:1.5px solid var(--bd)">
         <div class="section-title" style="margin-bottom:10px">🏨 Accommodation & Venue</div>
         <div class="row2">
-          <div><label class="required">Hotel Name & Address</label><input name="hotel" required placeholder="Hilton Deansgate, 303 Deansgate, Manchester M3 4LQ" value="${esc(g?.hotel||'')}"></div>
+          <div><label class="required">Hotel Name & Address</label><input name="hotel" required list="hotels-dl" placeholder="Select saved hotel or type address" value="${esc(g?.hotel||'')}">
+            <datalist id="hotels-dl">${S.locations.filter(L=>L.type==='hotel').map(L=>`<option value="${esc(L.name+', '+L.address)}">`).join('')}</datalist></div>
           <div><label>Room Number</label><input name="hotelRoom" placeholder="702" value="${esc(g?.hotelRoom||'')}"></div>
-          <div style="grid-column:span 2"><label>Event / Venue Address</label><input name="eventLocation" placeholder="Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA" value="${esc(g?.eventLocation||'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA')}"></div>
+          <div style="grid-column:span 2"><label>Event / Venue Address</label><input name="eventLocation" list="venues-dl" placeholder="Select saved venue or type address" value="${esc(g?.eventLocation||(S.locations.find(L=>L.type==='venue')?S.locations.find(L=>L.type==='venue').name+', '+S.locations.find(L=>L.type==='venue').address:''))}">
+            <datalist id="venues-dl">${S.locations.filter(L=>L.type==='venue').map(L=>`<option value="${esc(L.name+', '+L.address)}">`).join('')}</datalist></div>
         </div>
       </div>
-      <div class="row2">
-        <div><label>Assigned Detail Lead</label><input name="detailLead" placeholder="V-012 Thomas A." value="${esc(g?.detailLead||'')}"></div>
-        <div style="display:flex;align-items:center;gap:10px;padding-top:20px"><input type="checkbox" name="accessible" id="acc-cb" ${g?.accessible?'checked':''}><label for="acc-cb" style="margin:0;text-transform:none;font-size:13px;cursor:pointer">♿ Accessible / WAV vehicle required</label></div>
-      </div>
+      <div style="display:flex;align-items:center;gap:10px"><input type="checkbox" name="accessible" id="acc-cb" ${g?.accessible?'checked':''}><label for="acc-cb" style="margin:0;text-transform:none;font-size:13px;cursor:pointer">♿ Accessible / WAV vehicle required</label></div>
       <div><label>Special Notes / Requirements</label><textarea name="notes" placeholder="Dietary requirements, medical needs, security considerations, VIP preferences...">${esc(g?.notes||'')}</textarea></div>
       <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
         <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
         <button type="submit" class="btn btn-primary">💾 ${g?'Save Changes':'Add Guest'}</button>
+      </div>
+    </form>`;
+
+  } else if(modal==='addLocation') {
+    title = 'Add Saved Location';
+    body = `<form class="fg" onsubmit="saveLocation(event)">
+      <div class="row2">
+        <div><label class="required">Location Name</label><input name="name" required placeholder="Hilton Deansgate"></div>
+        <div><label class="required">Type</label><select name="type" required>
+          <option value="hotel">🏨 Hotel</option>
+          <option value="venue">🏟 Event Venue / Stadium</option>
+          <option value="airport">✈ Airport</option>
+          <option value="other">📌 Other</option>
+        </select></div>
+      </div>
+      <div><label class="required">Full Address (incl. postcode)</label><input name="address" required placeholder="303 Deansgate, Manchester M3 4LQ"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Save Location</button>
+      </div>
+    </form>`;
+
+  } else if(modal==='eventSettings') {
+    title = 'Event Settings';
+    body = `<form class="fg" onsubmit="saveSettings(event)">
+      <div><label class="required">Event Label (header, login & guest portal)</label><input name="eventShort" required placeholder="Old Trafford 2026" value="${esc(S.settings.eventShort||'')}"></div>
+      <div><label class="required">Event Subtitle (dashboard — venue & dates)</label><input name="eventSub" required placeholder="Old Trafford · 25–26 September 2026" value="${esc(S.settings.eventSub||'')}"></div>
+      <div style="font-size:11px;font-weight:700;color:var(--t3)">These labels update everywhere in the app and sync to all devices — reuse this platform for any future event by changing them here.</div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">
+        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">💾 Save Settings</button>
       </div>
     </form>`;
 
@@ -1405,6 +1479,26 @@ const rModal = () => {
 
 const closeModal = () => { S.modal=null; S.mData=null; render(); };
 
+const taskAutofill = f => {
+  const E = n => f.elements[n];
+  const g = S.guests.find(x=>x.id===E('guestId').value);
+  if(!g) return;
+  const vLoc = S.locations.find(L=>L.type==='venue');
+  const venue = g.eventLocation || (vLoc ? vLoc.name+', '+vLoc.address : '');
+  const map = {
+    airport_arrival: [g.arrivalAirport, g.hotel, g.eta],
+    hotel_escort:    [g.arrivalAirport, g.hotel, g.eta],
+    hotel_stadium:   [g.hotel, venue, null],
+    in_event:        [venue, venue, null],
+    stadium_hotel:   [venue, g.hotel, null],
+    hotel_airport:   [g.hotel, g.departureAirport, g.etd],
+  }[E('stage').value] || [];
+  if(map[0]) E('pickupAddr').value = map[0];
+  if(map[1]) E('dropoffAddr').value = map[1];
+  if(venue)  E('venueAddr').value = venue;
+  if(map[2]){ E('tripDate').value = map[2].slice(0,10); E('tripTime').value = map[2].slice(11,16); E('eta').value = map[2].slice(0,16); }
+};
+
 const saveTask = (e,mode,id) => {
   e.preventDefault();
   const fd = new FormData(e.target);
@@ -1415,7 +1509,7 @@ const saveTask = (e,mode,id) => {
     assigneeId:fd.get('assigneeId'), vehicleId:fd.get('vehicleId')||null,
     tripDate:fd.get('tripDate')||null, tripTime:fd.get('tripTime')||null,
     eta:fd.get('eta')||null, pickupAddr:fd.get('pickupAddr'), dropoffAddr:fd.get('dropoffAddr'),
-    venueAddr:fd.get('venueAddr')||'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',
+    venueAddr:fd.get('venueAddr')||'',
     notes:fd.get('notes'), priority:fd.get('priority')||'normal',
     status:ex?.status||'assigned', createdAt:ex?.createdAt||ts,
     transitUpdates:ex?.transitUpdates||[], autoTriggered:ex?.autoTriggered||false,
@@ -1440,20 +1534,33 @@ const saveGuest = (e,mode,id) => {
   const fd = new FormData(e.target);
   const ts = now();
   const ex = id ? S.guests.find(g=>g.id===id) : null;
+  const name = (fd.get('name')||'').trim();
+  // ── duplicate prevention: block a second guest with the same name (case-insensitive) ──
+  const dupe = S.guests.find(x=>x.id!==(ex?.id) && x.name.trim().toLowerCase()===name.toLowerCase());
+  if(dupe){ toast('⚠ A guest named "'+dupe.name+'" already exists — duplicate not created','error',4500); return; }
+  // ── auto-generate unique tracking code from surname ──
+  const genCode = () => {
+    const parts = name.replace(/[^A-Za-z ]/g,'').trim().split(/\s+/);
+    const stem = ((parts[parts.length-1]||'GST').slice(0,3).toUpperCase()+'XXX').slice(0,3);
+    let n = S.guests.length + 1, code;
+    do { code = stem + String(n).padStart(3,'0'); n++; } while(S.guests.some(x=>x.trackCode===code));
+    return code;
+  };
+  const FMAP = {'Nigeria':'🇳🇬','Ghana':'🇬🇭','South Africa':'🇿🇦','Canada':'🇨🇦','USA':'🇺🇸','UK':'🇬🇧','Kenya':'🇰🇪','Zimbabwe':'🇿🇼','Australia':'🇦🇺'};
   const g = {
-    id:ex?.id||gid(), name:fd.get('name'), title:fd.get('title'), origin:fd.get('origin'),
-    flag:fd.get('flag')||'🌍', nationality:fd.get('nationality'),
+    id:ex?.id||gid(), name, title:fd.get('title'), origin:fd.get('origin'),
+    flag:FMAP[fd.get('origin')]||'🌍', nationality:fd.get('nationality'),
     arrivalAirport:fd.get('arrivalAirport'), flightNoArr:fd.get('flightNoArr'), eta:fd.get('eta')||null,
     departureAirport:fd.get('departureAirport'), flightNoDep:fd.get('flightNoDep'), etd:fd.get('etd')||null,
     hotel:fd.get('hotel'), hotelRoom:fd.get('hotelRoom'),
-    eventLocation:fd.get('eventLocation')||'Old Trafford Stadium, Sir Matt Busby Way, Manchester M16 0RA',
-    detailLead:fd.get('detailLead'),
+    eventLocation:fd.get('eventLocation')||'',
+    detailLead:ex?.detailLead||'',
     accessible:!!document.getElementById('acc-cb')?.checked,
-    notes:fd.get('notes'), trackCode:(fd.get('trackCode')||'').toUpperCase(),
+    notes:fd.get('notes'), trackCode:ex?.trackCode||genCode(),
     createdAt:ex?.createdAt||ts,
   };
   if(ex){S.guests=S.guests.map(x=>x.id===id?g:x);addAudit({type:'guest_edited',guestId:g.id,userId:S.user.id,detail:`Profile updated: ${g.name}`,logType:'warn'});toast('Guest updated ✓','success');}
-  else{S.guests.push(g);addAudit({type:'guest_added',guestId:g.id,userId:S.user.id,detail:`VIP added: ${g.name} (${g.nationality})${g.trackCode?' · Code: '+g.trackCode:''}`,logType:'info'});toast('Guest added ✓','success');}
+  else{S.guests.push(g);addAudit({type:'guest_added',guestId:g.id,userId:S.user.id,detail:`VIP added: ${g.name} (${g.nationality})${g.trackCode?' · Code: '+g.trackCode:''}`,logType:'info'});toast('Guest added ✓  Tracking code: '+g.trackCode,'success',4500);}
   commit('guests'); closeModal();
 };
 
@@ -1481,6 +1588,24 @@ const saveTransit = (e,tid) => {
     toast('⚠ Issue logged · Admins alerted','error',4000);
   } else toast('Transit update logged ✓','success');
   commit('tasks'); closeModal();
+};
+
+const saveLocation = e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const name = (fd.get('name')||'').trim();
+  if(S.locations.some(L=>L.name.trim().toLowerCase()===name.toLowerCase())){ toast('⚠ A location with this name already exists','error'); return; }
+  S.locations.push({id:gid(), name, type:fd.get('type'), address:(fd.get('address')||'').trim(), createdAt:now()});
+  addAudit({type:'location_added',userId:S.user.id,detail:'Location saved: '+name+' ('+fd.get('type')+')',logType:'info'});
+  commit('locations'); toast('Location saved ✓ — now available in dropdowns','success'); closeModal();
+};
+
+const saveSettings = e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  S.settings = { ...S.settings, eventShort:(fd.get('eventShort')||'').trim(), eventSub:(fd.get('eventSub')||'').trim() };
+  addAudit({type:'settings_updated',userId:S.user.id,detail:'Event branding updated: '+S.settings.eventShort,logType:'warn'});
+  commit('settings'); toast('Event settings saved ✓','success'); closeModal();
 };
 
 const saveVehicle = (e,mode,id) => {
@@ -1603,6 +1728,27 @@ const bindAll = () => {
   document.querySelectorAll('[data-begin]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();beginTask(b.dataset.begin);}));
   document.querySelectorAll('[data-transit]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();S.modal='transitUpdate';S.mData=b.dataset.transit;render();}));
   document.querySelectorAll('[data-complete]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();if(confirm('Mark this stage as complete? The next stage will start automatically if a task exists for it.'))completeTask(b.dataset.complete);}));
+  // guest delete (admin)
+  document.querySelectorAll('[data-del-guest]').forEach(b=>b.addEventListener('click',e=>{
+    e.stopPropagation();
+    const id=b.dataset.delGuest; const g=S.guests.find(x=>x.id===id); if(!g) return;
+    if(!confirm('Delete '+g.name+' and ALL their tasks? This cannot be undone.')) return;
+    const tIds = S.tasks.filter(t=>t.guestId===id).map(t=>t.id);
+    S.guests = S.guests.filter(x=>x.id!==id);
+    S.tasks = S.tasks.filter(t=>t.guestId!==id);
+    S.notifs = S.notifs.filter(n=>!tIds.includes(n.taskId));
+    addAudit({type:'guest_deleted',guestId:id,userId:S.user.id,detail:'Guest deleted: '+g.name+' ('+(g.trackCode||'—')+') incl. '+tIds.length+' task(s)',logType:'warn'});
+    commit('guests'); commit('tasks'); commit('notifs');
+    toast('Guest deleted — '+g.name,'success'); rContent();
+  }));
+  // saved-location delete (admin)
+  document.querySelectorAll('[data-del-loc]').forEach(b=>b.addEventListener('click',e=>{
+    e.stopPropagation();
+    const id=b.dataset.delLoc; const L=S.locations.find(x=>x.id===id); if(!L) return;
+    if(!confirm('Remove saved location "'+L.name+'"?')) return;
+    S.locations = S.locations.filter(x=>x.id!==id);
+    commit('locations'); toast('Location removed','success'); rContent();
+  }));
   // vehicles
   document.querySelectorAll('[data-toggle-v]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.toggleV;S.vehicles=S.vehicles.map(v=>v.id===id?{...v,available:!v.available}:v);commit('vehicles');rContent();}));
   // staff
@@ -1623,6 +1769,10 @@ render();
 
 // ── CLOUD SYNC BOOT ────────────────────────────────────────────────────────────
 const cloudApply = (sk, v) => {
+  if(Array.isArray(v)){                                       // never allow duplicate records
+    const seen = new Set();
+    v = v.filter(x => !x || !x.id ? true : seen.has(x.id) ? false : (seen.add(x.id), true));
+  }
   if(JSON.stringify(S[sk])===JSON.stringify(v)) return;      // no change → no repaint
   S[sk] = v;
   if(!S.user) return;                                        // login screen shows no data
@@ -1642,13 +1792,14 @@ const initCloud = () => {
       if(on && !announced){ announced = true; toast('☁ Cloud sync active — all devices live','success'); }
       if(S.cloudOn !== on){ S.cloudOn = on; if(S.user && !S.modal) render(); }
     });
-    ['staff','guests','vehicles','tasks','msgs','audit','notifs'].forEach(k => {
+    ['staff','guests','vehicles','tasks','msgs','audit','notifs','locations','settings'].forEach(k => {
       DB.ref('p26/'+k).on('value', snap => {
         const v = snap.val();
         if(v === null){
           // first boot of an empty cloud DB: seed from this device (bootstrap admin etc.)
           const local = S[SKEY(k)];
-          if(local && local.length) DB.ref('p26/'+k).set(local).catch(()=>{});
+          const size = Array.isArray(local) ? local.length : (local ? Object.keys(local).length : 0);
+          if(size) DB.ref('p26/'+k).set(local).catch(()=>{});
           return;
         }
         store('p26v2_'+k, v);
