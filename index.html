@@ -340,23 +340,28 @@ const S = {
   notifs:   load('p26v2_notifs',   []),
   user: null, view: 'dashboard', modal: null, mData: null,
   chatOpen: false, notifOpen: false, trigBanner: null,
-  chatChannel: 'general',
+  chatChannel: 'general', cloudOn: false,
 };
 // ── CLOUD SYNC ─────────────────────────────────────────────────────────────────
 // To enable automatic multi-device sync: paste your Firebase config object below
 // (Firebase Console → Project settings → Your apps → SDK setup and configuration).
 // Leave as null to run in single-device mode (localStorage only).
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBY0z-wYjMP6QYYZBgI1cIurCqmuKgkQ-8",
-  authDomain: "nsppd-vip-tracker.firebaseapp.com",
-  databaseURL: "https://nsppd-vip-tracker-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "nsppd-vip-tracker",
-  storageBucket: "nsppd-vip-tracker.firebasestorage.app",
-  messagingSenderId: "580996577680",
-  appId: "1:580996577680:web:aca18f94a22f548c7e5b15",
-  measurementId: "G-DD2Z7LTSS0"
+const FIREBASE_CONFIG = null; /* e.g.
+{
+  apiKey: "AIza....",
+  authDomain: "nsppd-tracker.firebaseapp.com",
+  databaseURL: "https://nsppd-tracker-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "nsppd-tracker",
+  appId: "1:1234567890:web:abcdef"
+} */
+let DB = null;
+const SKEY = k => k==='msgs' ? 'messages' : k;   // storage key → state key
+const commit = k => {
+  const v = S[SKEY(k)];
+  store('p26v2_'+k, v);
+  if(DB) DB.ref('p26/'+k).set(v||[]).catch(()=>{});
 };
-  
+
 // ── AUDIT + NOTIF ──────────────────────────────────────────────────────────────
 const addAudit = e => { S.audit.unshift({id:gid(), ts:now(), ...e}); commit('audit'); };
 const addNotif = (uid,title,body,tid) => { S.notifs.unshift({id:gid(),userId:uid,title,body,taskId:tid,ts:now(),read:false}); commit('notifs'); };
@@ -569,7 +574,11 @@ const rDashboard = () => {
     </div>
     <button class="btn btn-primary btn-sm" data-modal="addTask">+ Assign Task</button>
   </div>
-  <div class="platform-warn" style="margin-bottom:14px">⚠ Single-device mode: localStorage only. Designate one Admin device as operations hub. Changes on other devices will not sync automatically.</div>
+  ${S.cloudOn
+    ? `<div class="platform-warn" style="margin-bottom:14px;background:var(--gs);border-color:var(--gl);color:var(--green)">☁ Cloud sync active — all devices share one live database. Tasks, notifications and chat sync automatically.</div>`
+    : FIREBASE_CONFIG
+      ? `<div class="platform-warn" style="margin-bottom:14px">⚠ Cloud sync configured but not connected — check your internet connection or Firebase config. Running on this device's local data until connection is restored.</div>`
+      : `<div class="platform-warn" style="margin-bottom:14px">⚠ Single-device mode: localStorage only. Designate one Admin device as operations hub. Changes on other devices will not sync automatically.</div>`}
   <div class="stat-grid">
     ${[['Total Tasks',tasks.length,'var(--navy)'],['Completed',done,'var(--green)'],['Active',active.length,'var(--al)'],['Issues',issues.length,'var(--rl)'],['Pending',pending.length,'var(--blue)'],['On Shift',onShift,'var(--pur)']].map(([l,v,c])=>`<div class="stat-card"><div class="stat-val" style="color:${c}">${v}</div><div class="stat-lbl">${l}</div></div>`).join('')}
   </div>
@@ -1634,7 +1643,9 @@ const initCloud = () => {
     DB = firebase.database();
     let announced = false;
     DB.ref('.info/connected').on('value', s => {
-      if(s.val() && !announced){ announced = true; toast('☁ Cloud sync active — all devices live','success'); }
+      const on = !!s.val();
+      if(on && !announced){ announced = true; toast('☁ Cloud sync active — all devices live','success'); }
+      if(S.cloudOn !== on){ S.cloudOn = on; if(S.user && !S.modal) render(); }
     });
     ['staff','guests','vehicles','tasks','msgs','audit','notifs'].forEach(k => {
       DB.ref('p26/'+k).on('value', snap => {
