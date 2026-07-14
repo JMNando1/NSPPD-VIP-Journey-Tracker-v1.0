@@ -262,6 +262,8 @@ h4{font-size:13px;font-weight:700;color:var(--t2);text-transform:uppercase;lette
 <body>
 <div id="app"></div>
 <div id="toast-container"></div>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script>
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -340,7 +342,25 @@ const S = {
   chatOpen: false, notifOpen: false, trigBanner: null,
   chatChannel: 'general',
 };
-const commit = k => store('p26v2_'+k, S[k]);
+// ── CLOUD SYNC ─────────────────────────────────────────────────────────────────
+// To enable automatic multi-device sync: paste your Firebase config object below
+// (Firebase Console → Project settings → Your apps → SDK setup and configuration).
+// Leave as null to run in single-device mode (localStorage only).
+const FIREBASE_CONFIG = null; /* e.g.
+{
+  apiKey: "AIza....",
+  authDomain: "nsppd-tracker.firebaseapp.com",
+  databaseURL: "https://nsppd-tracker-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "nsppd-tracker",
+  appId: "1:1234567890:web:abcdef"
+} */
+let DB = null;
+const SKEY = k => k==='msgs' ? 'messages' : k;   // storage key → state key
+const commit = k => {
+  const v = S[SKEY(k)];
+  store('p26v2_'+k, v);
+  if(DB) DB.ref('p26/'+k).set(v||[]).catch(()=>{});
+};
 
 // ── AUDIT + NOTIF ──────────────────────────────────────────────────────────────
 const addAudit = e => { S.audit.unshift({id:gid(), ts:now(), ...e}); commit('audit'); };
@@ -1601,6 +1621,42 @@ const rChatPanel = () => { const cp=document.getElementById('chat-panel'); if(cp
 
 // ── BOOT ───────────────────────────────────────────────────────────────────────
 render();
+
+// ── CLOUD SYNC BOOT ────────────────────────────────────────────────────────────
+const cloudApply = (sk, v) => {
+  if(JSON.stringify(S[sk])===JSON.stringify(v)) return;      // no change → no repaint
+  S[sk] = v;
+  if(!S.user) return;                                        // login screen shows no data
+  if(S.modal) return;                                        // never wipe an open form
+  const ae = document.activeElement;
+  if(ae && (ae.tagName==='INPUT'||ae.tagName==='TEXTAREA')) return; // never interrupt typing
+  render();
+};
+const initCloud = () => {
+  if(!FIREBASE_CONFIG || typeof firebase==='undefined') return;
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    DB = firebase.database();
+    let announced = false;
+    DB.ref('.info/connected').on('value', s => {
+      if(s.val() && !announced){ announced = true; toast('☁ Cloud sync active — all devices live','success'); }
+    });
+    ['staff','guests','vehicles','tasks','msgs','audit','notifs'].forEach(k => {
+      DB.ref('p26/'+k).on('value', snap => {
+        const v = snap.val();
+        if(v === null){
+          // first boot of an empty cloud DB: seed from this device (bootstrap admin etc.)
+          const local = S[SKEY(k)];
+          if(local && local.length) DB.ref('p26/'+k).set(local).catch(()=>{});
+          return;
+        }
+        store('p26v2_'+k, v);
+        cloudApply(SKEY(k), v);
+      });
+    });
+  } catch(e) { console.warn('Cloud sync unavailable — running device-local:', e); }
+};
+initCloud();
 
 </script>
 </body>
