@@ -346,20 +346,15 @@ const S = {
 // To enable automatic multi-device sync: paste your Firebase config object below
 // (Firebase Console → Project settings → Your apps → SDK setup and configuration).
 // Leave as null to run in single-device mode (localStorage only).
-const FIREBASE_CONFIG = null; /* e.g.
-{
-  apiKey: "AIza....",
-  authDomain: "nsppd-tracker.firebaseapp.com",
-  databaseURL: "https://nsppd-tracker-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "nsppd-tracker",
-  appId: "1:1234567890:web:abcdef"
-} */
-let DB = null;
-const SKEY = k => k==='msgs' ? 'messages' : k;   // storage key → state key
-const commit = k => {
-  const v = S[SKEY(k)];
-  store('p26v2_'+k, v);
-  if(DB) DB.ref('p26/'+k).set(v||[]).catch(()=>{});
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBY0z-wYjMP6QYYZBgI1cIurCqmuKgkQ-8",
+  authDomain: "nsppd-vip-tracker.firebaseapp.com",
+  databaseURL: "https://nsppd-vip-tracker-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "nsppd-vip-tracker",
+  storageBucket: "nsppd-vip-tracker.firebasestorage.app",
+  messagingSenderId: "580996577680",
+  appId: "1:580996577680:web:aca18f94a22f548c7e5b15",
+  measurementId: "G-DD2Z7LTSS0"
 };
 
 // ── AUDIT + NOTIF ──────────────────────────────────────────────────────────────
